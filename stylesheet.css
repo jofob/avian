@@ -1,0 +1,27 @@
+html, body, #map-canvas {
+	height: 100%;
+	margin: 0; 
+	padding: 0;
+}
+
+body{
+	overflow: hidden;
+	}
+
+#map-canvas{ 
+	width: 300%;
+	height: 300%;
+	transform:;
+	transform-origin: center, center;
+	
+}
+
+#birdControl{
+	bottom: 0px;
+	width:100%;
+	height: 30px;
+	text-align: center;
+	position: absolute;
+	z-index:100;
+
+}
