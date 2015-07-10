@@ -6,13 +6,14 @@ var curRot = 0; //the current angle of rotation
 var mapOptions; //googleMaps built in options
 var gmap; // the actual google map
 var mapDiv; //the div containing the google map
-var zoomLvl = 19; //current zoom level
+var zoomLvl = 16; //current zoom level
 var winWidth; //width of window
 var winHeight; //height of window
 var degUnit = 1; //unit of change for rotation on satellite map, in degrees.
 var headUnit = 90; //unit of change for aerial view rotation, in degrees. 
 var mapLon = -6.2774888 //longitude;
 var mapLat = 53.3390956 //latitude;
+var flightNotOver = true;
 
 //wing position variables 
 var lwingUp = false; //current position of left wing
@@ -25,6 +26,8 @@ var crl01;
 var crl11;
 var crl00;
 var crl10;
+var inbutt;
+var outbutt;
 //---------------------------//
 
 
@@ -51,11 +54,13 @@ function initialize() {
 	//calling various other setup functions
 	centerMap();
 	setButtons();
-	actionLoop();
+/* 	actionLoop(); */
 }
 
 function actionLoop(){
-	checkFlap();
+	while (flightNotOver){
+		setTimeout(checkFlap,100);
+	}
 }
 
 //CONVENIENCE FUNCTIONS
@@ -156,11 +161,15 @@ function setButtons(){
 	crl11 = document.getElementById("11");
 	crl00 = document.getElementById("00");
 	crl10 = document.getElementById("10");
+	inbutt = document.getElementById("in");
+	outbutt = document.getElementById("out");
 	
 	crl01.onclick = rightUp;
 	crl10.onclick = leftUp;
 	crl00.onclick = bothDown;
 	crl11.onclick = bothUp;
+	inbutt.onclick = zoomIn;
+	outbutt.onclick = zoomOut;
 }
 
 function centerMap(){
@@ -198,6 +207,14 @@ function bothDown(){
 	rwingUp = false;
 	lwingUp = false;
 	checkFlap();
+}
+
+function zoomIn(){
+	zoomMap("IN");
+}
+
+function zoomOut(){
+	zoomMap("OUT")
 }
 //---------------------------//
 
