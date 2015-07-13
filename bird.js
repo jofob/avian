@@ -15,6 +15,8 @@ var degUnit = 1; //unit of change for rotation on satellite map, in degrees.
 var headUnit = 90; //unit of change for aerial view rotation, in degrees. 
 var mapLon = -6.2774888 //longitude;
 var mapLat = 53.3390956 //latitude;
+var momentum = 0;
+var momentumLimit = 500;
 
 
 //wing position variables 
@@ -105,48 +107,68 @@ function checkAerial(){
 
 //CALCULATION FUNCTIONS
 //---------------------------//
-function calcLonLat(){
+function calcLonLat(unit){
 //this function will return the change in longitude and latitude based on 
 //a specific unit of movement and the angle trajectory
 	//first determine the quadrant of movement
-	var quad;
-	normaliseDeg();
-	if (0 <= curRot && curRot < 90 ){
-		quad = 4;
-	} else if (90 <= curRot && curRot < 180 ){
-		quad = 3;
-	} else if (180 <= curRot && curRot < 270 ){
-		quad = 2;
-	} else if (270 <= curRot && curRot < 360 ){
-		quad = 1;
+	if (momentum !== 0){
+		var quad;
+		normaliseDeg();
+		if (0 <= curRot && curRot < 90 ){
+			quad = 4;
+		} else if (90 <= curRot && curRot < 180 ){
+			quad = 3;
+		} else if (180 <= curRot && curRot < 270 ){
+			quad = 2;
+		} else if (270 <= curRot && curRot < 360 ){
+			quad = 1;
+		}
+		
+		
+		//using trigonometry and Pythagorean theorem to calculate change in lon & lat
+		var uSq = Math.pow(unit,2); //unit squared
+		var degRad = toRad(curRot); //angle of trajectory 
+		var sA = Math.sin(degRad); //sine of trajectory angle
+		var saSq = Math.pow(sA,2); //square of sine of angle
+		var delLat = Math.sqrt(Math.abs((saSq*uSq)-uSq));//change in latitude
+		var dlSq = Math.pow(delLat,2)//change in latitude squared
+		var delLon = Math.sqrt(uSq - dlSq);//change in longitude
+		
+	
+	
+		//use quadrant information to determine signs of lon and lat changes
+		if (quad == 2){
+	
+			delLat = (-delLat);
+		} else if (quad == 3){
+			delLat = (-delLat);
+			delLon = (-delLon);
+		} else if (quad == 4){
+			delLon = (-delLon);
+		}
+		return ([delLon, delLat]);
 	}
-	
-	
-	//using trigonometry and Pythagorean theorem to calculate change in lon & lat
-	var unit = .00005; //unit of movement
-	var uSq = Math.pow(unit,2); //unit squared
-	var degRad = toRad(curRot); //angle of trajectory 
-	var sA = Math.sin(degRad); //sine of trajectory angle
-	var saSq = Math.pow(sA,2); //square of sine of angle
-	var delLat = Math.sqrt(Math.abs((saSq*uSq)-uSq));//change in latitude
-	var dlSq = Math.pow(delLat,2)//change in latitude squared
-	var delLon = Math.sqrt(uSq - dlSq);//change in longitude
-	
-	console.log(delLon, delLat);
-	
-	//use quadrant information to determine signs of lon and lat changes
-	if (quad == 2){
-		console.log(2);
-		delLat = (-delLat);
-	} else if (quad == 3){
-		console.log(3);
-		delLat = (-delLat);
-		delLon = (-delLon);
-	} else if (quad == 4){
-		console.log(4);
-		delLon = (-delLon);
+}
+
+function movementMomentum(){
+//this function will calculate how much the user will move forward based on momentum 
+	//limit momentum to momentumLimit
+	if (momentum > momentumLimit){
+		momentum = momentumLimit;
 	}
-	return ([delLon, delLat]);
+	var unit = (.00000015)* momentum;
+	return (unit);
+}
+
+function rotateMomentum(){
+//this function determines how much the bird can turn on zoomed out levels based on momentum
+	//limit momentum to 1000
+	if (momentum > momentumLimit){
+		momentum = momentumLimit;
+	}
+	var unit = (1 / momentumLimit)*momentum;
+	return (unit);
+
 }
 //---------------------------//
 
@@ -215,6 +237,7 @@ function zoomOut(){
 //---------------------------//
 
 function checkFlap(){
+//thus function checks the position of the wings and sets momentum variables 
 	var rWingChange = false;
 	var lWingChange = false;
 	
@@ -226,18 +249,16 @@ function checkFlap(){
 	}
 	
 	if (rWingChange && lWingChange && (rwingUp == lwingUp)){
-		moveForward();
+		momentum = momentum + 50;
 	} else if (rwingUp && !lwingUp){
 		rotateMap("L");
-		moveForward();
 	} else if (lwingUp && !rwingUp){
 		rotateMap("R");
-		moveForward();
 	}
 	
 	rwingPrev = rwingUp;
 	lwingPrev = lwingUp;
-	
+	moveForward();
 }
 	
 //REAL CONTROL FUNCTIONS
@@ -292,11 +313,12 @@ function headingRotate(rot){
 function divRotate(rot){
 //This function rotates the map by rotating the containing div
 //used for the zoomed out, sattelite version
+	var unit = rotateMomentum();
 	var amt;
 	if (rot=="R"){
-		amt = -degUnit
+		amt = -unit
 	} else if (rot == "L"){
-		amt = degUnit
+		amt = unit
 	}
 	curRot = curRot+amt;
 	normaliseDeg();
@@ -331,13 +353,17 @@ function zoomMap(zm){
 }
 	
 function moveForward(){
-	var lonlat = calcLonLat();
-	var delLon = lonlat[0];
-	var delLat = lonlat[1];
-	
-	mapLon = mapLon + delLon;
-	mapLat = mapLat + delLat;
-	
-	gmap.panTo({lat: mapLat, lng: mapLon});
-	
+	var unit = movementMomentum();
+	if (momentum !== 0){
+		var lonlat = calcLonLat(unit);
+		var delLon = lonlat[0];
+		var delLat = lonlat[1];
+		
+		mapLon = mapLon + delLon;
+		mapLat = mapLat + delLat;
+		
+		gmap.panTo({lat: mapLat, lng: mapLon});
+		momentum = momentum -1;
+		console.log (momentum);
+	}
 }
