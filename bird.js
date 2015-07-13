@@ -1,3 +1,5 @@
+//George test comment for git hub
+
 google.maps.event.addDomListener(window, 'load', initialize);
 
 //GLOBAL VARIABLES
