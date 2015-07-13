@@ -13,8 +13,7 @@ var degUnit = 1; //unit of change for rotation on satellite map, in degrees.
 var headUnit = 90; //unit of change for aerial view rotation, in degrees. 
 var mapLon = -6.2774888 //longitude;
 var mapLat = 53.3390956 //latitude;
-var flightNotOver = true;
-var interval;
+
 
 //wing position variables 
 var lwingUp = false; //current position of left wing
@@ -59,7 +58,7 @@ function initialize() {
 }
 
 function actionLoop(){
-	setInterval(checkFlap, 200);
+	setInterval(checkFlap, 20);
 }
 
 //CONVENIENCE FUNCTIONS
