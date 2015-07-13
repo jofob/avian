@@ -14,6 +14,7 @@ var headUnit = 90; //unit of change for aerial view rotation, in degrees.
 var mapLon = -6.2774888 //longitude;
 var mapLat = 53.3390956 //latitude;
 var flightNotOver = true;
+var interval;
 
 //wing position variables 
 var lwingUp = false; //current position of left wing
@@ -54,13 +55,11 @@ function initialize() {
 	//calling various other setup functions
 	centerMap();
 	setButtons();
-/* 	actionLoop(); */
+	actionLoop();
 }
 
 function actionLoop(){
-	while (flightNotOver){
-		setTimeout(checkFlap,100);
-	}
+	setInterval(checkFlap, 200);
 }
 
 //CONVENIENCE FUNCTIONS
@@ -188,25 +187,21 @@ function centerMap(){
 function rightUp(){
 	rwingUp = true;
 	lwingUp = false;
-	checkFlap();
 }
 
 function leftUp(){
 	rwingUp = false;
 	lwingUp = true;
-	checkFlap();
 }
 
 function bothUp(){
 	rwingUp = true;
 	lwingUp = true;
-	checkFlap();
 }
 
 function bothDown(){
 	rwingUp = false;
 	lwingUp = false;
-	checkFlap();
 }
 
 function zoomIn(){
