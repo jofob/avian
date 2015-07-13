@@ -156,13 +156,16 @@ function movementMomentum(){
 	if (momentum > momentumLimit){
 		momentum = momentumLimit;
 	}
-	var unit = (.00000015)* momentum;
+	
+	var zoomDiff =  Math.pow(2,Math.abs(16 - zoomLvl));//getting relative change amount dependent on zoom level
+	var unit = ((.00000015)* momentum)/zoomDiff;
+	
 	return (unit);
 }
 
 function rotateMomentum(){
 //this function determines how much the bird can turn on zoomed out levels based on momentum
-	//limit momentum to 1000
+	//limit momentum to momentum limit
 	if (momentum > momentumLimit){
 		momentum = momentumLimit;
 	}
@@ -249,7 +252,7 @@ function checkFlap(){
 	}
 	
 	if (rWingChange && lWingChange && (rwingUp == lwingUp)){
-		momentum = momentum + 50;
+		momentum = momentum + 30;
 	} else if (rwingUp && !lwingUp){
 		rotateMap("L");
 	} else if (lwingUp && !rwingUp){
@@ -364,6 +367,6 @@ function moveForward(){
 		
 		gmap.panTo({lat: mapLat, lng: mapLon});
 		momentum = momentum -1;
-		console.log (momentum);
+		
 	}
 }
