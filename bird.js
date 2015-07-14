@@ -18,6 +18,8 @@ var mapLat = 53.3390956 //latitude;
 var momentum = 0;
 var momentumLimit = 500;
 var flightHasBegun = false;
+var svoverlay;
+var notStreeView = true;
 
 
 //wing position variables 
@@ -54,7 +56,8 @@ function initialize() {
 	//creating the actual map
     gmap = new google.maps.Map(document.getElementById('map-canvas'),
 		mapOptions);
-	
+	//assigning street view div;
+	svoverlay = document.getElementById("svoverlay");
 	//calling various other setup functions
 	centerMap();
 	setButtons();
@@ -268,8 +271,26 @@ function checkFall(){
 	} else if ( momentum > 350 && zoomLvl > 16 ){
 		zoomMap("OUT");
 		momentum = momentum - 200;
+	} else if (momentum == 0 && zoomLvl == 20 && notStreeView){
+		streetDrop();
 	}
 }	
+
+function streetDrop(){
+//this function drops the user onto the nearest street view
+//for now the street view is displayed in a div overlaying the original map
+
+	var streetPos = new google.maps.LatLng(mapLat, mapLon);
+	var svOptions = {
+		position: streetPos,
+		};
+	var panorama = new google.maps.StreetViewPanorama(svoverlay, svOptions);
+	svoverlay.style.visibility = "visible";
+	gmap.setStreetView(panorama);
+	notStreeView = false;
+}
+
+
 //REAL CONTROL FUNCTIONS
 //---------------------------//
 function rotateMap(rot){
@@ -351,11 +372,11 @@ function zoomMap(zm){
 	} else if (zoomLvl < 16){
 		zoomLvl = 16;
 	}
-	
+/* 	
 	if (zoomLvl > 17){
 		curRot = 0;
 		mapDiv.style.transform="translate("+(-winWidth)+"px,"+(-winHeight)+"px) rotate(0deg)";
-	}
+	} */
 	
 	gmap.setZoom(zoomLvl);
 		
