@@ -23,5 +23,16 @@ body{
 	text-align: center;
 	position: absolute;
 	z-index:100;
+}
+
+button{
+	width: 50px;
+	height: 50px;
+	border: none;
+	outline: none;
+	background-color: #ff7c5B;
+	color: #FFFFFF;
+	font-weight: bold;
+	padding-bottom: 10px;
 
 }
