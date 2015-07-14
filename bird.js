@@ -283,6 +283,11 @@ function streetDrop(){
 	var streetPos = new google.maps.LatLng(mapLat, mapLon);
 	var svOptions = {
 		position: streetPos,
+		heading: -curRot,
+		linksControl: false,
+		addressControl: false,
+		zoomControl: false,
+		panControl: false,
 		};
 	var panorama = new google.maps.StreetViewPanorama(svoverlay, svOptions);
 	svoverlay.style.visibility = "visible";
