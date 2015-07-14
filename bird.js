@@ -17,6 +17,7 @@ var mapLon = -6.2774888 //longitude;
 var mapLat = 53.3390956 //latitude;
 var momentum = 0;
 var momentumLimit = 500;
+var flightHasBegun = false;
 
 
 //wing position variables 
@@ -30,8 +31,6 @@ var crl01;
 var crl11;
 var crl00;
 var crl10;
-var inbutt;
-var outbutt;
 //---------------------------//
 
 
@@ -49,6 +48,7 @@ function initialize() {
 		draggable: false,
 		disableDoubleClickZoom:true,
 		keyboardShortcuts: false,
+		tilt:0, //remove this line if we want the 45 degree aerial view 
 		mapTypeId: google.maps.MapTypeId.SATELLITE
     };
 	//creating the actual map
@@ -58,11 +58,14 @@ function initialize() {
 	//calling various other setup functions
 	centerMap();
 	setButtons();
-	actionLoop();
+	setInterval(actionLoop, 20);
 }
 
 function actionLoop(){
-	setInterval(checkFlap, 20);
+	checkFlap();
+	checkFall();
+	moveForward();
+	
 }
 
 //CONVENIENCE FUNCTIONS
@@ -186,15 +189,11 @@ function setButtons(){
 	crl11 = document.getElementById("11");
 	crl00 = document.getElementById("00");
 	crl10 = document.getElementById("10");
-	inbutt = document.getElementById("in");
-	outbutt = document.getElementById("out");
 	
 	crl01.onclick = rightUp;
 	crl10.onclick = leftUp;
 	crl00.onclick = bothDown;
 	crl11.onclick = bothUp;
-	inbutt.onclick = zoomIn;
-	outbutt.onclick = zoomOut;
 }
 
 function centerMap(){
@@ -230,13 +229,6 @@ function bothDown(){
 	lwingUp = false;
 }
 
-function zoomIn(){
-	zoomMap("IN");
-}
-
-function zoomOut(){
-	zoomMap("OUT")
-}
 //---------------------------//
 
 function checkFlap(){
@@ -252,6 +244,8 @@ function checkFlap(){
 	}
 	
 	if (rWingChange && lWingChange && (rwingUp == lwingUp)){
+	//for each successful flap, add to momentum
+		flightHasBegun = true; //marks that the flight has begun
 		momentum = momentum + 30;
 	} else if (rwingUp && !lwingUp){
 		rotateMap("L");
@@ -261,9 +255,21 @@ function checkFlap(){
 	
 	rwingPrev = rwingUp;
 	lwingPrev = lwingUp;
-	moveForward();
 }
-	
+
+function checkFall(){
+//this function checks the bird's momentum
+//if momentum is below lower limit, and the flight has begun, the bird will fall down to the next zoom level
+//if momentum is above upper limit, the bird will rise to the next zoom level.
+//moving down adds more momentum, moving up costs momentum
+	if (momentum < 20 && flightHasBegun && zoomLvl <  20){
+		zoomMap("IN");
+		momentum = momentum + 200;
+	} else if ( momentum > 350 && zoomLvl > 16 ){
+		zoomMap("OUT");
+		momentum = momentum - 200;
+	}
+}	
 //REAL CONTROL FUNCTIONS
 //---------------------------//
 function rotateMap(rot){
