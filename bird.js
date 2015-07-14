@@ -19,7 +19,8 @@ var momentum = 0;
 var momentumLimit = 500;
 var flightHasBegun = false;
 var svoverlay;
-var notStreeView = true;
+var notStreetView = true;
+var panorama;
 
 
 //wing position variables 
@@ -271,10 +272,17 @@ function checkFall(){
 	} else if ( momentum > 350 && zoomLvl > 16 ){
 		zoomMap("OUT");
 		momentum = momentum - 200;
-	} else if (momentum == 0 && zoomLvl == 20 && notStreeView){
+	} else if (momentum == 0 && zoomLvl == 20 && notStreetView){
 		streetDrop();
+	} else if ( notStreetView == false && momentum > 100){
+		takeOff();
 	}
 }	
+
+function takeOff(){
+	svoverlay.style.visibility="hidden";
+	notStreetView = true;
+}
 
 function streetDrop(){
 //this function drops the user onto the nearest street view
@@ -283,16 +291,19 @@ function streetDrop(){
 	var streetPos = new google.maps.LatLng(mapLat, mapLon);
 	var svOptions = {
 		position: streetPos,
-		heading: -curRot,
 		linksControl: false,
 		addressControl: false,
 		zoomControl: false,
 		panControl: false,
+		pov: {
+			heading: -curRot,
+			pitch: 10, 
+			}
 		};
-	var panorama = new google.maps.StreetViewPanorama(svoverlay, svOptions);
+	panorama = new google.maps.StreetViewPanorama(svoverlay, svOptions);
 	svoverlay.style.visibility = "visible";
 	gmap.setStreetView(panorama);
-	notStreeView = false;
+	notStreetView = false;
 }
 
 
@@ -377,12 +388,7 @@ function zoomMap(zm){
 	} else if (zoomLvl < 16){
 		zoomLvl = 16;
 	}
-/* 	
-	if (zoomLvl > 17){
-		curRot = 0;
-		mapDiv.style.transform="translate("+(-winWidth)+"px,"+(-winHeight)+"px) rotate(0deg)";
-	} */
-	
+
 	gmap.setZoom(zoomLvl);
 		
 }
