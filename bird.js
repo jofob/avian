@@ -280,16 +280,16 @@ function checkFall(){
 }	
 
 function takeOff(){
-	svoverlay.style.visibility="hidden";
+	svoverlay.style.opacity = "0"
+	setTimeout(function(){svoverlay.style.visibility="hidden";},500);
 	notStreetView = true;
 }
 
 function streetDrop(){
 //this function drops the user onto the nearest street view
 //for now the street view is displayed in a div overlaying the original map
-
 	var streetPos = new google.maps.LatLng(mapLat, mapLon);
-	var svOptions = {
+	var svOptions = { // Setting street view parameters
 		position: streetPos,
 		linksControl: false,
 		addressControl: false,
@@ -301,11 +301,15 @@ function streetDrop(){
 			}
 		};
 	panorama = new google.maps.StreetViewPanorama(svoverlay, svOptions);
-	svoverlay.style.visibility = "visible";
 	gmap.setStreetView(panorama);
+	setTimeout(streetViewVisible, 500); //delays making street view visible
 	notStreetView = false;
 }
 
+function streetViewVisible(){
+	svoverlay.style.visibility = "visible";
+	svoverlay.style.opacity = "100"
+}
 
 //REAL CONTROL FUNCTIONS
 //---------------------------//
@@ -388,9 +392,9 @@ function zoomMap(zm){
 	} else if (zoomLvl < 16){
 		zoomLvl = 16;
 	}
+	setTimeout(function(){ 
+		gmap.setZoom(zoomLvl)}, 100);
 
-	gmap.setZoom(zoomLvl);
-		
 }
 	
 function moveForward(){
