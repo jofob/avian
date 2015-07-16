@@ -17,10 +17,12 @@ var mapLon = -6.2774888 //longitude;
 var mapLat = 53.3390956 //latitude;
 var momentum = 0;
 var momentumLimit = 500;
-var flightHasBegun = false;
-var svoverlay;
-var notStreetView = true;
-var panorama;
+var flightHasBegun = false; //boolean indicating if the player has started flying yet
+var svoverlay; // street view overlay
+var notStreetView = true; 
+var panorama; //street view object
+var bird; //will store the variety of bird
+var startOverlay //div containing start selector buttons
 
 
 //wing position variables 
@@ -34,6 +36,8 @@ var crl01;
 var crl11;
 var crl00;
 var crl10;
+var selCrow;
+var selDove;
 //---------------------------//
 
 
@@ -62,6 +66,7 @@ function initialize() {
 	//calling various other setup functions
 	centerMap();
 	setButtons();
+	startOverlay = document.getElementById("startHere");
 	setInterval(actionLoop, 20);
 }
 
@@ -193,11 +198,16 @@ function setButtons(){
 	crl11 = document.getElementById("11");
 	crl00 = document.getElementById("00");
 	crl10 = document.getElementById("10");
+	selCrow = document.getElementById("crow");
+	selDove = document.getElementById("dove");
 	
 	crl01.onclick = rightUp;
 	crl10.onclick = leftUp;
 	crl00.onclick = bothDown;
 	crl11.onclick = bothUp;
+	selDove.onclick = selectDove;
+	selCrow.onclick = selectCrow;
+	
 }
 
 function centerMap(){
@@ -233,7 +243,25 @@ function bothDown(){
 	lwingUp = false;
 }
 
+function selectDove(){
+	bird = "dove";
+	startOverlay.style.opacity="0";
+	setTimeout(hideStart, 1000);
+}
+
+function selectCrow(){
+	bird = "crow";
+	startOverlay.style.opacity="0";
+	setTimeout(hideStart, 1000);
+}
+
+
+function hideStart(){
+	startOverlay.style.visibility = "hidden"
+}
 //---------------------------//
+
+
 
 function checkFlap(){
 //thus function checks the position of the wings and sets momentum variables 
@@ -393,7 +421,7 @@ function zoomMap(zm){
 		zoomLvl = 16;
 	}
 	setTimeout(function(){ 
-		gmap.setZoom(zoomLvl)}, 100);
+		gmap.setZoom(zoomLvl)}, 10);
 
 }
 	
