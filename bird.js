@@ -22,6 +22,8 @@ var svoverlay; // street view overlay
 var notStreetView = true; 
 var panorama; //street view object
 var bird; //will store the variety of bird
+var birdImg;//animated flying bird
+var birdDiv; //holds bird image
 var startOverlay //div containing start selector buttons
 
 
@@ -63,6 +65,7 @@ function initialize() {
 		mapOptions);
 	//assigning street view div;
 	svoverlay = document.getElementById("svoverlay");
+	birdDiv = document.getElementById("birdy");
 	//calling various other setup functions
 	centerMap();
 	setButtons();
@@ -226,35 +229,46 @@ function centerMap(){
 function rightUp(){
 	rwingUp = true;
 	lwingUp = false;
+	birdImg.src="img/"+bird+"frames/left.png";
 }
 
 function leftUp(){
 	rwingUp = false;
 	lwingUp = true;
+	birdImg.src="img/"+bird+"frames/right.png";
 }
 
 function bothUp(){
 	rwingUp = true;
 	lwingUp = true;
+	birdImg.src="img/"+bird+"frames/up.png";
 }
 
 function bothDown(){
 	rwingUp = false;
 	lwingUp = false;
+	birdImg.src="img/"+bird+"frames/down.png";
 }
 
 function selectDove(){
 	bird = "dove";
 	startOverlay.style.opacity="0";
+	insertBird();
 	setTimeout(hideStart, 1000);
 }
 
 function selectCrow(){
 	bird = "crow";
 	startOverlay.style.opacity="0";
+	insertBird();
 	setTimeout(hideStart, 1000);
 }
 
+function insertBird(){
+	birdImg = document.createElement("img");
+	birdImg.src = "img/"+ bird + "Frames/down.png";
+	birdDiv.appendChild(birdImg);
+}
 
 function hideStart(){
 	startOverlay.style.visibility = "hidden"
