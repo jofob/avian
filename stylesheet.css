@@ -60,6 +60,21 @@ button{
 	transition: opacity .5s ease-in-out;
 }
 
+#birdy {
+	width: 100%;
+	text-align: center;
+	height: 200px;
+	position: absolute;
+	bottom: 0;
+	margin: 0 auto;
+	z-index: 50;
+}
+
+#birdy img{
+	width: 200px;
+	height: auto;
+}
+
 #crow{
 	margin-top: 300px;
 	width: 200px;
