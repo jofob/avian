@@ -17,14 +17,7 @@ var mapLon = -6.2774888 //longitude;
 var mapLat = 53.3390956 //latitude;
 var momentum = 0;
 var momentumLimit = 500;
-var flightHasBegun = false; //boolean indicating if the player has started flying yet
-var svoverlay; // street view overlay
-var notStreetView = true; 
-var panorama; //street view object
-var bird; //will store the variety of bird
-var birdImg;//animated flying bird
-var birdDiv; //holds bird image
-var startOverlay //div containing start selector buttons
+var flightHasBegun = false;
 
 
 //wing position variables 
@@ -38,15 +31,52 @@ var crl01;
 var crl11;
 var crl00;
 var crl10;
-var selCrow;
-var selDove;
 //---------------------------//
 
 
 function initialize() {
+//styling
+
+var styles = [
+  	{
+    	stylers: [
+    	  { hue: "#ff0000" },
+    	  { saturation: 100 }
+    	]
+  	},{
+  	  featureType: "satellite",
+  	  elementType: "geometry.fill",
+  	  stylers: [
+  	    { "lightness": -50 },
+      	{ "hue": "#ff0000" },
+      	{ "saturation": 80 },
+      	{ "weight": 2.7 },
+      	{ "invert_lightness": false },
+      	{ "visibility": "on" }
+    	]
+  	},{
+  	  featureType: "road",
+  	  elementType: "roads",
+  	  stylers: [
+  	  	{ 	"lightness": -100 },
+  	  	{	"hue": "#000000" },
+  	  	{	"weight": 3.0	},
+    	{	"visibility": "on" }
+    	]
+  	}
+	];
+	
+	var styledMap = new google.maps.StyledMapType(styles,
+    {name: "Styled Map"});
+
 //setup function, mostly created by google api//
 	mapOptions = {
 	//setting initial map parameters//
+		//
+		mapTypeControlOptions: {
+      	mapTypeIds: [google.maps.MapTypeId.SATELLITE, 'map_style']
+    	},
+    	//
 		center: { lat: mapLat, lng: mapLon},
 		zoom: zoomLvl,
 		disableDefaultUI: true,
@@ -58,18 +88,19 @@ function initialize() {
 		disableDoubleClickZoom:true,
 		keyboardShortcuts: false,
 		tilt:0, //remove this line if we want the 45 degree aerial view 
-		mapTypeId: google.maps.MapTypeId.SATELLITE
+		
     };
 	//creating the actual map
     gmap = new google.maps.Map(document.getElementById('map-canvas'),
 		mapOptions);
-	//assigning street view div;
-	svoverlay = document.getElementById("svoverlay");
-	birdDiv = document.getElementById("birdy");
+	//
+	gmap.mapTypes.set('map_style', styledMap);
+  	gmap.setMapTypeId('map_style');
+  	//
+	
 	//calling various other setup functions
 	centerMap();
 	setButtons();
-	startOverlay = document.getElementById("startHere");
 	setInterval(actionLoop, 20);
 }
 
@@ -201,16 +232,11 @@ function setButtons(){
 	crl11 = document.getElementById("11");
 	crl00 = document.getElementById("00");
 	crl10 = document.getElementById("10");
-	selCrow = document.getElementById("crow");
-	selDove = document.getElementById("dove");
 	
 	crl01.onclick = rightUp;
 	crl10.onclick = leftUp;
 	crl00.onclick = bothDown;
 	crl11.onclick = bothUp;
-	selDove.onclick = selectDove;
-	selCrow.onclick = selectCrow;
-	
 }
 
 function centerMap(){
@@ -218,7 +244,7 @@ function centerMap(){
 // and CSS transformation
 	getWinDimensions();
 	mapDiv=document.getElementById('map-canvas'); 
-	mapDiv.style.transform ="translate("+(-winWidth/3)+"px,"+(-winHeight)+"px)"
+	mapDiv.style.transform ="translate("+(-winWidth)+"px,"+(-winHeight)+"px)"
 	}
 //---------------------------//
 
@@ -229,55 +255,24 @@ function centerMap(){
 function rightUp(){
 	rwingUp = true;
 	lwingUp = false;
-	birdImg.src="img/"+bird+"frames/left.png";
 }
 
 function leftUp(){
 	rwingUp = false;
 	lwingUp = true;
-	birdImg.src="img/"+bird+"frames/right.png";
 }
 
 function bothUp(){
 	rwingUp = true;
 	lwingUp = true;
-	birdImg.src="img/"+bird+"frames/up.png";
 }
 
 function bothDown(){
 	rwingUp = false;
 	lwingUp = false;
-	birdImg.src="img/"+bird+"frames/down.png";
 }
 
-function selectDove(){
-	bird = "dove";
-	startOverlay.style.opacity="0";
-	mapDiv.setAttribute("class","mapDivDove");
-	insertBird();
-	setTimeout(hideStart, 1000);
-}
-
-function selectCrow(){
-	bird = "crow";
-	startOverlay.style.opacity="0";
-	mapDiv.setAttribute("class","mapDivCrow");
-	insertBird();
-	setTimeout(hideStart, 1000);
-}
-
-function insertBird(){
-	birdImg = document.createElement("img");
-	birdImg.src = "img/"+ bird + "Frames/down.png";
-	birdDiv.appendChild(birdImg);
-}
-
-function hideStart(){
-	startOverlay.style.visibility = "hidden"
-}
 //---------------------------//
-
-
 
 function checkFlap(){
 //thus function checks the position of the wings and sets momentum variables 
@@ -316,45 +311,8 @@ function checkFall(){
 	} else if ( momentum > 350 && zoomLvl > 16 ){
 		zoomMap("OUT");
 		momentum = momentum - 200;
-	} else if (momentum == 0 && zoomLvl == 20 && notStreetView){
-		streetDrop();
-	} else if ( notStreetView == false && momentum > 100){
-		takeOff();
 	}
 }	
-
-function takeOff(){
-	svoverlay.style.opacity = "0"
-	setTimeout(function(){svoverlay.style.visibility="hidden";},500);
-	notStreetView = true;
-}
-
-function streetDrop(){
-//this function drops the user onto the nearest street view
-//for now the street view is displayed in a div overlaying the original map
-	var streetPos = new google.maps.LatLng(mapLat, mapLon);
-	var svOptions = { // Setting street view parameters
-		position: streetPos,
-		linksControl: false,
-		addressControl: false,
-		zoomControl: false,
-		panControl: false,
-		pov: {
-			heading: -curRot,
-			pitch: 10, 
-			}
-		};
-	panorama = new google.maps.StreetViewPanorama(svoverlay, svOptions);
-	gmap.setStreetView(panorama);
-	setTimeout(streetViewVisible, 500); //delays making street view visible
-	notStreetView = false;
-}
-
-function streetViewVisible(){
-	svoverlay.style.visibility = "visible";
-	svoverlay.style.opacity = "100"
-}
-
 //REAL CONTROL FUNCTIONS
 //---------------------------//
 function rotateMap(rot){
@@ -416,7 +374,7 @@ function divRotate(rot){
 	}
 	curRot = curRot+amt;
 	normaliseDeg();
-	mapDiv.style.transform="translate("+(-winWidth/3)+"px,"+(-winHeight)+"px) rotate("+curRot+"deg)";
+	mapDiv.style.transform="translate("+(-winWidth)+"px,"+(-winHeight)+"px) rotate("+curRot+"deg)";
 }
 
 function zoomMap(zm){
@@ -436,9 +394,14 @@ function zoomMap(zm){
 	} else if (zoomLvl < 16){
 		zoomLvl = 16;
 	}
-	setTimeout(function(){ 
-		gmap.setZoom(zoomLvl)}, 10);
-
+	
+	if (zoomLvl > 17){
+		curRot = 0;
+		mapDiv.style.transform="translate("+(-winWidth)+"px,"+(-winHeight)+"px) rotate(0deg)";
+	}
+	
+	gmap.setZoom(zoomLvl);
+		
 }
 	
 function moveForward(){

@@ -1,4 +1,4 @@
-html, body, #map-canvas {
+html, body{
 	height: 100%;
 	margin: 0; 
 	padding: 0;
@@ -7,18 +7,54 @@ html, body, #map-canvas {
 body{
 	overflow: hidden;
 	}
+	
+#mapRight{
+	width: 32%;
+	height: 100%;
+	margin: 0%;
+	overflow: hidden;
+	float: right;
+	}
+	
+#wingsLeft{
+	width: 32%;
+	height: 100%;
+	margin: 0%;
+	overflow: hidden;
+	float: left;
+	}
+	
+#wingsLeft img{
+	margin-top: 40%;
+	}
+	
+#mapCentre{
+	width: 32%;
+	height: 100%;
+	margin: 0%;
+	overflow: hidden;
+}
 
 #map-canvas{ 
 	width: 300%;
 	height: 300%;
+	margin: 0; 
+	padding: 0;
 	transform:;
-	transform-origin: center, center;
-	
+	//transform-origin: center, center;
 }
+
+.mapDivCrow{
+	-webkit-filter: contrast(2.6) hue-rotate(240deg) opacity(0.8);
+	}
+	
+.mapDivDove{
+	-webkit-filter: hue-rotate(0deg) brightness(2.2) opacity(0.6);
+	}
 
 #birdControl{
 	bottom: 0px;
-	width:100%;
+	width: inherit;
 	height: 30px;
 	text-align: center;
 	position: absolute;
@@ -27,8 +63,9 @@ body{
 
 
 #svoverlay{
-	width: 100%;
+	width: 33%;
 	height: 100%;
+	margin-left: 33%;
 	position: absolute;
 	top: 0;
 	z-index: 98;
@@ -61,7 +98,7 @@ button{
 }
 
 #birdy {
-	width: 100%;
+	width: inherit;
 	text-align: center;
 	height: 200px;
 	position: absolute;
