@@ -457,18 +457,18 @@ function moveForward(){
 	}
 }
 /*
-+This is the basic way to draw a path. for future reference
-+
-+var flightPlanCoordinates = [
-+    new google.maps.LatLng(53.3390956, -6.2774888),
-+    new google.maps.LatLng(53.3450976, -6.2703112),
-+    new google.maps.LatLng(53.3437125, -6.2470383),
-+  ];
-+  var flightPath = new google.maps.Polyline({
-+    path: flightPlanCoordinates,
-+    geodesic: true,
-+    strokeColor: '#FF0000',
-+    strokeOpacity: 1.0,
-+    strokeWeight: 2
-+  });
-+  flightPath.setMap(gmap) */
+This is the basic way to draw a path. for future reference
+
+var flightPlanCoordinates = [
+    new google.maps.LatLng(53.3390956, -6.2774888),
+    new google.maps.LatLng(53.3450976, -6.2703112),
+    new google.maps.LatLng(53.3437125, -6.2470383),
+  ];
+  var flightPath = new google.maps.Polyline({
+    path: flightPlanCoordinates,
+    geodesic: true,
+    strokeColor: '#FF0000',
+    strokeOpacity: 1.0,
+    strokeWeight: 2
+  });
+  flightPath.setMap(gmap) */
