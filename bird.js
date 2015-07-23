@@ -7,7 +7,9 @@ google.maps.event.addDomListener(window, 'load', initialize);
 var curRot = 0; //the current angle of rotation
 var mapOptions; //googleMaps built in options
 var gmap; // the actual google map
+var gmap2;//duplicate map;
 var mapDiv; //the div containing the google map
+var mapDiv2; //duplicate mapDiv;
 var zoomLvl = 16; //current zoom level
 var winWidth; //width of window
 var winHeight; //height of window
@@ -63,6 +65,9 @@ function initialize() {
 	//creating the actual map
     gmap = new google.maps.Map(document.getElementById('map-canvas'),
 		mapOptions);
+	gmap2 = new google.maps.Map(document.getElementById('map-canvas2'),
+		mapOptions);
+		
 	//assigning street view div;
 	svoverlay = document.getElementById("svoverlay");
 	birdDiv = document.getElementById("birdy");
@@ -218,7 +223,10 @@ function centerMap(){
 // and CSS transformation
 	getWinDimensions();
 	mapDiv=document.getElementById('map-canvas'); 
-	mapDiv.style.transform ="translate("+(-winWidth/3)+"px,"+(-winHeight)+"px)"
+	mapDiv2=document.getElementById('map-canvas2');
+	
+	mapDiv.style.transform ="translate("+(-winWidth/3)+"px,"+(-winHeight)+"px)";
+	mapDiv2.style.transform ="translate("+(-winWidth/3)+"px,"+(-winHeight)+"px)";
 	}
 //---------------------------//
 
@@ -253,7 +261,7 @@ function bothDown(){
 function selectDove(){
 	bird = "dove";
 	startOverlay.style.opacity="0";
-	mapDiv.setAttribute("class","mapDivDove");
+	mapDiv2.setAttribute("class","mapDivDove");
 	insertBird();
 	setTimeout(hideStart, 1000);
 }
@@ -261,7 +269,7 @@ function selectDove(){
 function selectCrow(){
 	bird = "crow";
 	startOverlay.style.opacity="0";
-	mapDiv.setAttribute("class","mapDivCrow");
+	mapDiv2.setAttribute("class","mapDivCrow");
 	insertBird();
 	setTimeout(hideStart, 1000);
 }
@@ -417,6 +425,7 @@ function divRotate(rot){
 	curRot = curRot+amt;
 	normaliseDeg();
 	mapDiv.style.transform="translate("+(-winWidth/3)+"px,"+(-winHeight)+"px) rotate("+curRot+"deg)";
+	mapDiv2.style.transform="translate("+(-winWidth/3)+"px,"+(-winHeight)+"px) rotate("+curRot+"deg)";
 }
 
 function zoomMap(zm){
@@ -437,7 +446,9 @@ function zoomMap(zm){
 		zoomLvl = 16;
 	}
 	setTimeout(function(){ 
-		gmap.setZoom(zoomLvl)}, 10);
+		gmap.setZoom(zoomLvl);
+		gmap2.setZoom(zoomLvl)}, 10);
+		
 
 }
 	
@@ -452,23 +463,8 @@ function moveForward(){
 		mapLat = mapLat + delLat;
 		
 		gmap.panTo({lat: mapLat, lng: mapLon});
+		gmap2.panTo({lat: mapLat, lng: mapLon});
 		momentum = momentum -1;
 		
 	}
 }
-/*
-This is the basic way to draw a path. for future reference
-
-var flightPlanCoordinates = [
-    new google.maps.LatLng(53.3390956, -6.2774888),
-    new google.maps.LatLng(53.3450976, -6.2703112),
-    new google.maps.LatLng(53.3437125, -6.2470383),
-  ];
-  var flightPath = new google.maps.Polyline({
-    path: flightPlanCoordinates,
-    geodesic: true,
-    strokeColor: '#FF0000',
-    strokeOpacity: 1.0,
-    strokeWeight: 2
-  });
-  flightPath.setMap(gmap) */
