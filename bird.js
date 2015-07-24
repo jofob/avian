@@ -464,7 +464,7 @@ function zoomMap(zm){
 		zoomLvl = 16;
 	}
 	setTimeout(function(){ 
-		gmap.setZoom(zoomLvl);
+		gmap.setZoom(zoomLvl-1);
 		gmap2.setZoom(zoomLvl)}, 10);
 		
 
