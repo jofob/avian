@@ -17,6 +17,11 @@ var degUnit = 1; //unit of change for rotation on satellite map, in degrees.
 var headUnit = 90; //unit of change for aerial view rotation, in degrees. 
 var mapLon = -6.2774888 //longitude;
 var mapLat = 53.3390956 //latitude;
+var destinationMarker; //Variable for map marker
+var markerNo = 1; //Markers numbered
+var icon; //creates variable for the marker image, filled in selectCrow/Dove functions
+var markerCrow = 'img/crowFrames/down.png'; //Images for respective markers
+var markerDove = 'img/doveFrames/down.png';
 var momentum = 0;
 var momentumLimit = 500;
 var flightHasBegun = false; //boolean indicating if the player has started flying yet
@@ -76,6 +81,8 @@ function initialize() {
 	setButtons();
 	startOverlay = document.getElementById("startHere");
 	setInterval(actionLoop, 20);
+	
+
 }
 
 function actionLoop(){
@@ -260,6 +267,7 @@ function bothDown(){
 
 function selectDove(){
 	bird = "dove";
+	icon = markerDove;
 	startOverlay.style.opacity="0";
 	mapDiv2.setAttribute("class","mapDivDove");
 	insertBird();
@@ -268,6 +276,7 @@ function selectDove(){
 
 function selectCrow(){
 	bird = "crow";
+	icon = markerCrow;
 	startOverlay.style.opacity="0";
 	mapDiv2.setAttribute("class","mapDivCrow");
 	insertBird();
@@ -341,6 +350,14 @@ function streetDrop(){
 //this function drops the user onto the nearest street view
 //for now the street view is displayed in a div overlaying the original map
 	var streetPos = new google.maps.LatLng(mapLat, mapLon);
+	//DESTINATION MARKER CODE
+	destinationMarker = new google.maps.Marker({
+      position: streetPos,
+      map: gmap2,
+      icon: icon,
+      title: "marker " + markerNo
+      });
+    //  
 	var svOptions = { // Setting street view parameters
 		position: streetPos,
 		linksControl: false,
@@ -356,6 +373,7 @@ function streetDrop(){
 	gmap.setStreetView(panorama);
 	setTimeout(streetViewVisible, 500); //delays making street view visible
 	notStreetView = false;
+	markerNo = markerNo ++;
 }
 
 function streetViewVisible(){
