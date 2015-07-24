@@ -119,7 +119,7 @@ button{
 	text-align: center;
 	height: 200px;
 	position: absolute;
-	bottom: 0;
+	bottom: 15%;
 	margin: 0 auto;
 	z-index: 50;
 }
