@@ -270,6 +270,7 @@ function selectDove(){
 	icon = markerDove;
 	startOverlay.style.opacity="0";
 	mapDiv2.setAttribute("class","mapDivDove");
+	svoverlay.setAttribute("class","mapDivDove");
 	insertBird();
 	setTimeout(hideStart, 1000);
 }
@@ -279,6 +280,7 @@ function selectCrow(){
 	icon = markerCrow;
 	startOverlay.style.opacity="0";
 	mapDiv2.setAttribute("class","mapDivCrow");
+	svoverlay.setAttribute("class","mapDivCrow");
 	insertBird();
 	setTimeout(hideStart, 1000);
 }

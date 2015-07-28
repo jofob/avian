@@ -61,7 +61,7 @@ body{
 }
 
 .mapDivCrow{
-	-webkit-filter: contrast(2.6) hue-rotate(240deg) opacity(0.8);
+	-webkit-filter: contrast(2) hue-rotate(300deg);
 	}
 	
 .mapDivDove{
