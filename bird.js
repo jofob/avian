@@ -11,8 +11,8 @@ var gmap2;//duplicate map;
 var mapDiv; //the div containing the google map
 var mapDiv2; //duplicate mapDiv;
 var zoomLvl = 16; //current zoom level
-var winWidth; //width of window
-var winHeight; //height of window
+var windowW; //width of window
+var windowH; //height of window
 var degUnit = 1; //unit of change for rotation on satellite map, in degrees.
 var headUnit = 90; //unit of change for aerial view rotation, in degrees. 
 var mapLon = -6.2774888 //longitude;
@@ -111,12 +111,12 @@ function normaliseDeg(){
 	}
 }
 
-function getWinDimensions(){
+function setWinDimensions(){
 	//gets window inner dimensions and sets to global variables
 	//used for ensuring map is centred around correct point
 	
-	winWidth = window.innerWidth;
-	winHeight= window.innerHeight;
+	windowW = window.innerWidth;
+	windowH= window.innerHeight;
 }
 
 function checkAerial(){
@@ -228,12 +228,12 @@ function setButtons(){
 function centerMap(){
 // sets map to visually correct centre by using window dimensions
 // and CSS transformation
-	getWinDimensions();
+	setWinDimensions();
 	mapDiv=document.getElementById('map-canvas'); 
 	mapDiv2=document.getElementById('map-canvas2');
 	
-	mapDiv.style.transform ="translate("+(-winWidth/3)+"px,"+(-winHeight)+"px)";
-	mapDiv2.style.transform ="translate("+(-winWidth/3)+"px,"+(-winHeight)+"px)";
+	mapDiv.style.transform ="translate("+(-windowW/3)+"px,"+(-windowH)+"px)";
+	mapDiv2.style.transform ="translate("+(-windowW/3)+"px,"+(-windowH)+"px)";
 	}
 //---------------------------//
 
@@ -447,8 +447,8 @@ function divRotate(rot){
 	}
 	curRot = curRot+amt;
 	normaliseDeg();
-	mapDiv.style.transform="translate("+(-winWidth/3)+"px,"+(-winHeight)+"px) rotate("+curRot+"deg)";
-	mapDiv2.style.transform="translate("+(-winWidth/3)+"px,"+(-winHeight)+"px) rotate("+curRot+"deg)";
+	mapDiv.style.transform="translate("+(-windowW/3)+"px,"+(-windowH)+"px) rotate("+curRot+"deg)";
+	mapDiv2.style.transform="translate("+(-windowW/3)+"px,"+(-windowH)+"px) rotate("+curRot+"deg)";
 }
 
 function zoomMap(zm){
