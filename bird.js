@@ -349,15 +349,8 @@ function takeOff(){
 function streetDrop(){
 //this function drops the user onto the nearest street view
 //for now the street view is displayed in a div overlaying the original map
-	var streetPos = new google.maps.LatLng(mapLat, mapLon);
-	//DESTINATION MARKER CODE
-	destinationMarker = new google.maps.Marker({
-      position: streetPos,
-      map: gmap2,
-      icon: icon,
-      title: "marker " + markerNo
-      });
-    //  
+	var streetPos = new google.maps.LatLng(mapLat, mapLon);	
+	leaveMark(streetPos);
 	var svOptions = { // Setting street view parameters
 		position: streetPos,
 		linksControl: false,
@@ -373,7 +366,19 @@ function streetDrop(){
 	gmap.setStreetView(panorama);
 	setTimeout(streetViewVisible, 500); //delays making street view visible
 	notStreetView = false;
+
+}
+
+function leaveMark(streetPos){
+//this function leaves the place mark
+	destinationMarker = new google.maps.Marker({
+		position: streetPos,
+		map: gmap2,
+		icon: icon,
+		title: "marker " + markerNo
+    });
 	markerNo = markerNo ++;
+
 }
 
 function streetViewVisible(){
