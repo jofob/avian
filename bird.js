@@ -93,6 +93,7 @@ function actionLoop(){
 	
 }
 
+
 //CONVENIENCE FUNCTIONS
 //---------------------------//
 function toRad(deg){
@@ -250,7 +251,57 @@ function initLocStor(){
 	}
 }
 	
-	//---------------------------//
+function insertBird(){
+	birdImg = document.createElement("img");
+	birdImg.src = "img/"+ bird + "Frames/down.png";
+	birdDiv.appendChild(birdImg);
+}
+	
+function hideStart(){
+	startOverlay.style.visibility = "hidden"
+}
+
+function drawPrevPaths(){
+//This function draws the previous paths of birds
+	var paths;
+	if (bird == "crow"){
+		var pathobj = JSON.parse(localStorage.getItem("crowPaths"));
+	}else if (bird =="dove"){
+		var pathobj = JSON.parse(localStorage.getItem("dovePaths"));
+	}
+	paths = pathobj.coords;
+	console.log(paths);
+	console.log(paths.length);
+	var idx = 0;
+	while (idx < paths.length) {
+		var path = paths[idx];
+		var pathPoints = [];
+		idx2 = 0;
+		while (idx2 < path.length) {
+			var coords = path[idx2];
+			var cLon = coords[0];
+			var cLat = coords[1];
+			var point = new google.maps.LatLng(cLon, cLat);
+			pathPoints.push(point);
+			idx2++;
+		}
+		idx++;
+		console.log(pathPoints);
+		var birdPath = new google.maps.Polyline({
+			path: pathPoints,
+			geodesic: true,
+			strokeColor: '#FF0000',
+			strokeOpacity: 1.0,
+			strokeWeight: 2 
+		});
+		birdPath.setMap(gmap2);	
+	}
+		
+}
+
+		
+
+//---------------------------//
 
 	
 //BASIC CONTROL FUNCTIONS
@@ -300,15 +351,6 @@ function selectCrow(){
 	setTimeout(hideStart, 1000);
 }
 
-function insertBird(){
-	birdImg = document.createElement("img");
-	birdImg.src = "img/"+ bird + "Frames/down.png";
-	birdDiv.appendChild(birdImg);
-}
-
-function hideStart(){
-	startOverlay.style.visibility = "hidden"
-}
 //---------------------------//
 
 
@@ -402,6 +444,7 @@ function streetViewVisible(){
 	svoverlay.style.visibility = "visible";
 	svoverlay.style.opacity = "100"
 }
+
 
 //REAL CONTROL FUNCTIONS
 //---------------------------//
