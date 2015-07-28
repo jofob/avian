@@ -79,6 +79,7 @@ function initialize() {
 	//calling various other setup functions
 	centerMap();
 	setButtons();
+	initLocStor();
 	startOverlay = document.getElementById("startHere");
 	setInterval(actionLoop, 20);
 	
@@ -235,7 +236,21 @@ function centerMap(){
 	mapDiv.style.transform ="translate("+(-windowW/3)+"px,"+(-windowH)+"px)";
 	mapDiv2.style.transform ="translate("+(-windowW/3)+"px,"+(-windowH)+"px)";
 	}
-//---------------------------//
+
+function initLocStor(){
+//This function checks the local storage on the browser
+//If the information contained within is not up to date, reset with starting values
+	var avianStatus = localStorage.getItem("avianStatus");
+	if ( avianStatus == null ) {
+		localStorage.setItem("dovePaths", JSON.stringify(dovePaths));
+		localStorage.setItem("crowPaths", JSON.stringify(crowPaths));
+		localStorage.setItem("dovePoints", JSON.stringify(dovePoints));
+		localStorage.setItem("crowPoints", JSON.stringify(crowPoints));
+		localStorage.setItem("avianStatus", "initSet");
+	}
+}
+	
+	//---------------------------//
 
 	
 //BASIC CONTROL FUNCTIONS
