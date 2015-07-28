@@ -341,7 +341,7 @@ function checkFall(){
 }	
 
 function takeOff(){
-	svoverlay.style.opacity = "0"
+	svoverlay.style.opacity = "0";
 	setTimeout(function(){svoverlay.style.visibility="hidden";},500);
 	notStreetView = true;
 }
