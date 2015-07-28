@@ -32,6 +32,7 @@ var bird; //will store the variety of bird
 var birdImg;//animated flying bird
 var birdDiv; //holds bird image
 var startOverlay //div containing start selector buttons
+var currPath; // stores the current path coordinates of the bird
 
 
 //wing position variables 
@@ -249,6 +250,7 @@ function initLocStor(){
 		localStorage.setItem("crowPoints", JSON.stringify(crowPoints));
 		localStorage.setItem("avianStatus", "initSet");
 	}
+	
 }
 	
 function insertBird(){
@@ -259,11 +261,13 @@ function insertBird(){
 	
 function hideStart(){
 	startOverlay.style.visibility = "hidden"
+	drawPrevPaths();
 }
 
 function drawPrevPaths(){
 //This function draws the previous paths of birds
 	var paths;
+	var opac = 1;
 	if (bird == "crow"){
 		var pathobj = JSON.parse(localStorage.getItem("crowPaths"));
 	}else if (bird =="dove"){
@@ -290,11 +294,12 @@ function drawPrevPaths(){
 		var birdPath = new google.maps.Polyline({
 			path: pathPoints,
 			geodesic: true,
-			strokeColor: '#FF0000',
-			strokeOpacity: 1.0,
+			strokeColor: '#FFFFFF',
+			strokeOpacity: opac,
 			strokeWeight: 2 
 		});
-		birdPath.setMap(gmap2);	
+		birdPath.setMap(gmap2);
+		opac = opac/2;
 	}
 		
 }
@@ -445,7 +450,9 @@ function streetViewVisible(){
 	svoverlay.style.opacity = "100"
 }
 
-
+function drawCurrPath(){
+	
+}
 //REAL CONTROL FUNCTIONS
 //---------------------------//
 function rotateMap(rot){
@@ -547,7 +554,6 @@ function moveForward(){
 		
 		gmap.panTo({lat: mapLat, lng: mapLon});
 		gmap2.panTo({lat: mapLat, lng: mapLon});
-		momentum = momentum -1;
-		
+		momentum = momentum -1;	
 	}
 }
