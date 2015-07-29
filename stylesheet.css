@@ -118,7 +118,7 @@ button{
 	text-align: center;
 	height: 200px;
 	position: absolute;
-	bottom: 15%;
+	bottom: 35%;
 	margin: 0 auto;
 	z-index: 50;
 }
@@ -145,7 +145,4 @@ button{
 	color: #000000;
 	font-size: 2em;
 }
-=======
->>>>>>> 350577d4374ed6c8109eeb8be15744565001d84e
 
-}
