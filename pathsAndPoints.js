@@ -2,7 +2,7 @@
 
 //JSON
 
-//Paths - will be three dimensional arrays of lon,lat to create poly lines
+//Paths - will be three dimensional arrays of lat, to create poly lines
 var dovePaths = {
 				"coords" : 
 					[[[53.3390956,-6.2774888],
