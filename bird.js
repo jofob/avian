@@ -50,6 +50,7 @@ var crl00;
 var crl10;
 var selCrow;
 var selDove;
+var resetButton;
 //---------------------------//
 
 
@@ -225,6 +226,7 @@ function setButtons(){
 	crl10 = document.getElementById("10");
 	selCrow = document.getElementById("crow");
 	selDove = document.getElementById("dove");
+	resetButton = document.getElementById("reset");
 	
 	crl01.onclick = rightUp;
 	crl10.onclick = leftUp;
@@ -232,7 +234,36 @@ function setButtons(){
 	crl11.onclick = bothUp;
 	selDove.onclick = selectDove;
 	selCrow.onclick = selectCrow;
+	resetButton.onclick = reset;
 	
+}
+
+function reset(){
+	storePath();
+	location.reload();
+}
+
+function storePath(){
+	var prevPaths;
+	if (bird == "crow"){
+		prevPaths = JSON.parse(localStorage.getItem("crowPaths"));
+	} else if ( bird == "dove"){
+		prevPaths = JSON.parse(localStorage.getItem("dovePaths"));
+	}
+	prevPaths = prevPaths.coords;
+	prevPaths.push(currPath);
+	
+	if (bird == "crow"){
+		var prevPathsObj = {
+			"coords" : prevPaths
+		};
+		localStorage.setItem("crowPaths", JSON.stringify(prevPathsObj));
+	} else if (bird == "dove"){
+		var prevPathsObj = {
+			"coords" : prevPaths
+			};
+		localStorage.setItem("dovePaths", JSON.stringify(prevPathsObj));
+	}
 }
 
 function centerMap(){
@@ -282,6 +313,7 @@ function drawPrevPaths(){
 	}
 	paths = pathobj.coords;
 	var idx = 0;
+	console.log(paths.length);
 	while (idx < paths.length) {
 		var path = paths[idx];
 		var pathPoints = [];
@@ -290,7 +322,7 @@ function drawPrevPaths(){
 			var coords = path[idx2];
 			var cLon = coords[0];
 			var cLat = coords[1];
-			var point = new google.maps.LatLng(cLon, cLat);
+			var point = new google.maps.LatLng(cLat, cLon);
 			pathPoints.push(point);
 			idx2++;
 		}
@@ -303,7 +335,7 @@ function drawPrevPaths(){
 			strokeWeight: 2 
 		});
 		birdPath.setMap(gmap2);
-		opac = opac/2;
+		
 	}
 		
 }
