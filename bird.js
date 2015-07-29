@@ -31,8 +31,10 @@ var panorama; //street view object
 var bird; //will store the variety of bird
 var birdImg;//animated flying bird
 var birdDiv; //holds bird image
-var startOverlay //div containing start selector buttons
-var currPath; // stores the current path coordinates of the bird
+var startOverlay; //div containing start selector buttons
+var currPath = []; // stores the current path coordinates of the bird
+var curBirdPath = new google.maps.Polyline();
+var loopCount = 0;
 
 
 //wing position variables 
@@ -81,6 +83,8 @@ function initialize() {
 	centerMap();
 	setButtons();
 	initLocStor();
+	//Start bird path at origin position
+	currPath.push([mapLon,mapLat]);
 	startOverlay = document.getElementById("startHere");
 	setInterval(actionLoop, 20);
 	
@@ -91,6 +95,9 @@ function actionLoop(){
 	checkFlap();
 	checkFall();
 	moveForward();
+	pointToPath();
+	drawCurrPath();
+	loopCount++;
 	
 }
 
@@ -274,8 +281,6 @@ function drawPrevPaths(){
 		var pathobj = JSON.parse(localStorage.getItem("dovePaths"));
 	}
 	paths = pathobj.coords;
-	console.log(paths);
-	console.log(paths.length);
 	var idx = 0;
 	while (idx < paths.length) {
 		var path = paths[idx];
@@ -290,7 +295,6 @@ function drawPrevPaths(){
 			idx2++;
 		}
 		idx++;
-		console.log(pathPoints);
 		var birdPath = new google.maps.Polyline({
 			path: pathPoints,
 			geodesic: true,
@@ -304,7 +308,12 @@ function drawPrevPaths(){
 		
 }
 
-		
+function pointToPath(){
+	if (loopCount % 30 == 0){
+		var point = [mapLon, mapLat];
+		currPath.push(point);
+	}
+}	
 
 //---------------------------//
 
@@ -451,8 +460,30 @@ function streetViewVisible(){
 }
 
 function drawCurrPath(){
-	
+	curBirdPath.setMap(null);
+	var idx = 0;
+	var pathPoints=[];
+	while (idx < currPath.length) {
+		var coords = currPath[idx];
+		var cLon = coords[0];
+		var cLat = coords[1];
+		var point = new google.maps.LatLng(cLat, cLon);
+		pathPoints.push(point);
+		idx++;
+		}
+	//Make current point the last point on the line
+		var curPoint = new google.maps.LatLng(mapLat,mapLon);
+		pathPoints.push(curPoint);
+		curBirdPath = new google.maps.Polyline({
+			path: pathPoints,
+			geodesic: true,
+			strokeColor: '#FF0000',
+			strokeOpacity: 1,
+			strokeWeight: 2 
+		});
+		curBirdPath.setMap(gmap2);
 }
+
 //REAL CONTROL FUNCTIONS
 //---------------------------//
 function rotateMap(rot){
