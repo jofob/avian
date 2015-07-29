@@ -481,7 +481,7 @@ function drawCurrPath(){
 			strokeOpacity: 1,
 			strokeWeight: 2 
 		});
-		curBirdPath.setMap(gmap2);
+		curBirdPath.setMap(gmap);
 }
 
 //REAL CONTROL FUNCTIONS
