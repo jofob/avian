@@ -2,19 +2,20 @@
 <html>
   <head>
 	  <meta charset="UTF-8">
-	  <link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+	  <link rel="stylesheet" type="text/css" href="css/stylesheet.css"/>
     <script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAK4bBBnoksrqP_cc7YCgy5hoBWmpRqq3A">
     </script>
-    <script type="text/javascript" src="bird.js"></script>
-	<script type="text/javascript" src="pathsAndPoints.js"></script>
-	<script src="processing.js"></script>
+    <script type="text/javascript" src="js/bird.js"></script>
+	<script type="text/javascript" src="js/pathsAndPoints.js"></script>
+	<script src="js/processing.js"></script>
+	 <script src="socket.io/socket.io.js"></script>
 
   </head>
   <body>
   
   	<div id = "wingsLeft">
-  		<canvas data-processing-sources="wings.pde"></canvas>
+  		<canvas data-processing-sources="pde/wings.pde"></canvas>
   	</div>
 	
 	<div id = "mapCentre">
@@ -35,8 +36,12 @@
 			<!-- animated bird will go here -->
 		</div>
 	</div>
-	
-	
+	<script>
+		var socket = io.connect();
+		socket.on('message', function(data){
+		console.log(data.message);
+		});
+	</script>
 	
 	<div id= "svoverlay"></div>
 	
