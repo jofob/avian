@@ -88,8 +88,6 @@ function initialize() {
 	currPath.push([mapLon,mapLat]);
 	startOverlay = document.getElementById("startHere");
 	setInterval(actionLoop, 20);
-	
-
 }
 
 function actionLoop(){
@@ -99,9 +97,13 @@ function actionLoop(){
 	pointToPath();
 	drawCurrPath();
 	loopCount++;
-	
 }
 
+// listen for arduino values
+var socket = io.connect();
+socket.on('message', function(data){
+console.log(data.message);
+});
 
 //CONVENIENCE FUNCTIONS
 //---------------------------//

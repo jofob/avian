@@ -39,21 +39,33 @@ void loop()
   // when it's straight and bent, and insert those values into the above function.
   
   // print out the result
-  Serial.print("L");  
-  Serial.println(sensor,DEC);  
+//  Serial.print("L");  //
+//  Serial.println(sensor,DEC);  //
   
   
 //  Serial.print("   degrees: ");//
 //  Serial.println(degrees,DEC);//
 //  Serial.write(degrees);//
   
-  Serial.print("R");  
-  Serial.println(sensor2,DEC);
+//  Serial.print("R");  //
+//  Serial.println(sensor2,DEC);//
+  
+  String sensorStr = String(sensor,DEC);
+  String sensor2Str = String (sensor2,DEC);
+
+
+  
+  String results = "L";
+  results.concat(sensorStr);
+  results.concat("xR");
+  results.concat(sensor2Str);
+  Serial.println(results);
+  
 //  Serial.print("   degrees2: ");//
  // Serial.println(degrees2,DEC);//
 //  Serial.write(degrees2);//
   // pause before taking the next reading
   
-  delay(25);
+  delay(1000);
                        
 }

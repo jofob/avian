@@ -9,7 +9,9 @@ var right;
 var path;
 
 /* REQUIRED NODE MODULES */
-var SerialPort = require("serialport").SerialPort; 
+var serialport = require("serialport");
+var SerialPort = serialport.SerialPort;
+
 var http = require("http");
 var url = require('url');
 var fs = require('fs');
@@ -41,10 +43,14 @@ app.use(express.static(__dirname + '/public'));
 
 /* SERIAL PORT READING */
 /* if no arduino is plugged in, comment out this code */
-var port = new SerialPort("COM8");
+var port = new SerialPort("COM8", {
+  parser: serialport.parsers.readline("\n")
+	});
+	
 port.on('data', function(data){
 		var buff = new Buffer(data, 'utf8');
 		var piece = buff.toString();
+		console.log(piece);
 		
 		var lpiece = piece.slice(0,4);
 		if (lpiece.slice(0,1)=="L"){
@@ -68,5 +74,5 @@ ios.sockets.on('connection', function(socket){
     setInterval(function(){
         socket.emit('message', {'message': left});
 		socket.emit('message', {'message': right});
-  }, 80);
+  }, 40);
 });
