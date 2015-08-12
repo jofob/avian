@@ -50,16 +50,18 @@ var port = new SerialPort("COM8", {
 port.on('data', function(data){
 		var buff = new Buffer(data, 'utf8');
 		var piece = buff.toString();
-		console.log(piece);
+		var pieces = piece.split("x");
 		
-		var lpiece = piece.slice(0,4);
+		var lpiece = pieces[0];
 		if (lpiece.slice(0,1)=="L"){
-				left = lpiece;
+			left = lpiece;
+			console.log(left);
 		}
 		
-		var rpiece = piece.slice(6,11);
+		var rpiece = pieces[1];
 		if (rpiece.slice(0,1)=="R"){
-				right = rpiece;
+			right = rpiece.slice(0,4);
+			console.log(right);
 		}
 		
 	});

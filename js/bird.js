@@ -35,6 +35,11 @@ var startOverlay; //div containing start selector buttons
 var currPath = []; // stores the current path coordinates of the bird
 var curBirdPath = new google.maps.Polyline();
 var loopCount = 0;
+var lVal; //left value from arduino
+var rVal; //right value from arduino
+var lDeg = 0;
+var rDeg = 0;
+var wingUp = 800;
 
 
 //wing position variables 
@@ -91,6 +96,7 @@ function initialize() {
 }
 
 function actionLoop(){
+	ardValToDeg();
 	checkFlap();
 	checkFall();
 	moveForward();
@@ -102,8 +108,14 @@ function actionLoop(){
 // listen for arduino values
 var socket = io.connect();
 socket.on('message', function(data){
-console.log(data.message);
+	var msg = data.message;
+	if (msg.slice(0,1)== "R"){
+		rVal = parseInt(msg.slice(1,4));
+	} else if (msg.slice(0,1) == "L"){
+		lVal = parseInt(msg.slice(1,4));
+	}
 });
+
 
 //CONVENIENCE FUNCTIONS
 //---------------------------//
@@ -121,6 +133,25 @@ function normaliseDeg(){
 	} 
 	while (curRot < 0){
 		curRot = curRot + 360;
+	}
+}
+
+function ardValToDeg(){
+// this function converts arduino sensor values to degrees
+//	can be manually calibrated with variables
+	var zero = 700;
+	var ninety = 850;
+	
+	var diff = ninety-zero;
+	var perDeg = diff/180;
+	
+	lDeg = (lVal-700)/perDeg;
+	if (lDeg < 0){
+		lDeg = 0;
+	}
+	rDeg = (rVal-zero)/perDeg;
+	if (rDeg < 0){
+		rDeg = 0;
 	}
 }
 
@@ -342,6 +373,21 @@ function drawPrevPaths(){
 		
 }
 
+function senseToWing(){
+//This function converts sensor values to wing positions
+	if (lVal < wingUp){
+		lwingUp = false;
+	} else {
+		lwingUp = true;
+	}
+	if (rVal < wingUp){
+		rwingUp = false;
+	} else {
+		rwingUp = true;
+	}
+
+}
+
 function pointToPath(){
 	if (loopCount % 30 == 0){
 		var point = [mapLon, mapLat];
@@ -405,6 +451,8 @@ function selectCrow(){
 
 function checkFlap(){
 //thus function checks the position of the wings and sets momentum variables 
+	senseToWing();
+	
 	var rWingChange = false;
 	var lWingChange = false;
 	
@@ -414,15 +462,23 @@ function checkFlap(){
 	if (lwingUp !== lwingPrev){
 		lWingChange = true;
 	}
-	
+	if (rwingUp && lwingUp){
+		birdImg.src="img/"+bird+"frames/up.png";
+	}
+	if (!rwingUp && !lwingUp){
+		birdImg.src="img/"+bird+"frames/down.png";
+	}
 	if (rWingChange && lWingChange && (rwingUp == lwingUp)){
 	//for each successful flap, add to momentum
 		flightHasBegun = true; //marks that the flight has begun
 		momentum = momentum + 30;
+		
 	} else if (rwingUp && !lwingUp){
 		rotateMap("L");
+		birdImg.src="img/"+bird+"frames/left.png";
 	} else if (lwingUp && !rwingUp){
 		rotateMap("R");
+		birdImg.src="img/"+bird+"frames/right.png";
 	}
 	
 	rwingPrev = rwingUp;
