@@ -11,8 +11,8 @@ var gmap2;//duplicate map;
 var mapDiv; //the div containing the google map
 var mapDiv2; //duplicate mapDiv;
 var zoomLvl = 16; //current zoom level
-var windowW; //width of window
-var windowH; //height of window
+var windowW=0; //width of window
+var windowH=0; //height of window
 var degUnit = 1; //unit of change for rotation on satellite map, in degrees.
 var headUnit = 90; //unit of change for aerial view rotation, in degrees. 
 var mapLon = -6.2774888 //longitude;

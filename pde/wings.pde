@@ -13,8 +13,8 @@
 
 int ORIGINAL_WIDTH = 1635;
 
-int canvasWidth;
-int canvasHeight;
+int canvasWidth = 0;
+int canvasHeight = 0;
 
 int transX = 735;
 int transY = 925;
