@@ -90,7 +90,7 @@ void draw(){
     if(bird == "dove") background(55,55,55);
     else  background(210,210,215);
     
-    float leftDegree  = maxDegree-minDegree)/lDeg;
+    float leftDegree  = (maxDegree-minDegree)/lDeg;
     drawWing(leftDegree);
     
     float rightDegree  = (maxDegree-minDegree)/rDeg;
