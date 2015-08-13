@@ -7,6 +7,8 @@
 var left;
 var right;
 var path;
+var rpiece;
+var lpiece;
 
 /* REQUIRED NODE MODULES */
 var serialport = require("serialport");
@@ -52,13 +54,13 @@ port.on('data', function(data){
 		var piece = buff.toString();
 		var pieces = piece.split("x");
 		
-		var lpiece = pieces[0];
+		lpiece = pieces[0];
 		if (lpiece.slice(0,1)=="L"){
 			left = lpiece;
 			console.log(left);
 		}
 		
-		var rpiece = pieces[1];
+		rpiece = pieces[1];
 		if (rpiece.slice(0,1)=="R"){
 			right = rpiece.slice(0,4);
 			console.log(right);

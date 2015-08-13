@@ -35,8 +35,8 @@ var startOverlay; //div containing start selector buttons
 var currPath = []; // stores the current path coordinates of the bird
 var curBirdPath = new google.maps.Polyline();
 var loopCount = 0;
-var lVal; //left value from arduino
-var rVal; //right value from arduino
+var lVal = 0; //left value from arduino
+var rVal = 0; //right value from arduino
 var lDeg = 0;
 var rDeg = 0;
 var wingUp = 800;
@@ -153,8 +153,6 @@ function ardValToDeg(){
 	if (rDeg < 28){
 		rDeg = 28;
 	}
-	console.log(rDeg);
-	console.log(lDeg);
 	
 }
 
