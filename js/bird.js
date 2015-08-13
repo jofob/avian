@@ -143,16 +143,19 @@ function ardValToDeg(){
 	var ninety = 850;
 	
 	var diff = ninety-zero;
-	var perDeg = diff/180;
+	var perDeg = diff/270;
 	
 	lDeg = (lVal-700)/perDeg;
-	if (lDeg < 0){
-		lDeg = 0;
+	if (lDeg < 28){
+		lDeg = 28;
 	}
 	rDeg = (rVal-zero)/perDeg;
-	if (rDeg < 0){
-		rDeg = 0;
+	if (rDeg < 28){
+		rDeg = 28;
 	}
+	console.log(rDeg);
+	console.log(lDeg);
+	
 }
 
 function setWinDimensions(){
