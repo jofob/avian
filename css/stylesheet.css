@@ -11,6 +11,8 @@ body{
 
 	
 #wingsLeft{
+	position: absolute;
+	left: 0;
 	width: 33.3333%;
 	height: 100%;
 	margin: 0%;
@@ -85,6 +87,17 @@ body{
 	position: absolute;
 	top: 0;
 	z-index: 98;
+	visibility: hidden;
+	opacity: 0;
+	transition: opacity .5s ease-in-out;
+}
+
+#flockContainer{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	z-index: 100;
 	visibility: hidden;
 	opacity: 0;
 	transition: opacity .5s ease-in-out;
