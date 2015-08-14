@@ -33,6 +33,7 @@ var birdImg;//animated flying bird
 var birdDiv; //holds bird image
 var startOverlay; //div containing start selector buttons
 var currPath = []; // stores the current path coordinates of the bird
+var currPoints=[];// stores current flights markers
 var curBirdPath = new google.maps.Polyline();
 var loopCount = 0;
 var lVal = 0; //left value from arduino
@@ -161,7 +162,7 @@ function setWinDimensions(){
 	//used for ensuring map is centred around correct point
 	
 	windowW = window.innerWidth;
-	windowH= window.innerHeight;
+	windowH = window.innerHeight;
 }
 
 function checkAerial(){
@@ -274,6 +275,7 @@ function setButtons(){
 
 function reset(){
 	storePath();
+	storePoints();
 	location.reload();
 }
 
@@ -297,6 +299,32 @@ function storePath(){
 			"coords" : prevPaths
 			};
 		localStorage.setItem("dovePaths", JSON.stringify(prevPathsObj));
+	}
+}
+
+function storePoints(){
+	var prevPoints;
+	if (bird == "crow"){
+		prevPoints = JSON.parse(localStorage.getItem("crowPoints"));
+	} else if ( bird == "dove"){
+		prevPoints = JSON.parse(localStorage.getItem("dovePoints"));
+	}
+	prevPoints = prevPoints.coords;
+	var idx = 0;
+	while (idx < prevPoints.length ){
+		prevPoints.push(currPoints[idx]);
+		idx++;
+	}
+	if (bird == "crow"){
+		var prevPointsObj = {
+			"coords" : prevPoints
+		};
+		localStorage.setItem("crowPoints", JSON.stringify(prevPointsObj));
+	} else if (bird == "dove"){
+		var prevPointsObj = {
+			"coords" : prevPoints
+			};
+		localStorage.setItem("dovePoints", JSON.stringify(prevPointsObj));
 	}
 }
 
@@ -333,6 +361,7 @@ function insertBird(){
 	
 function hideStart(){
 	startOverlay.style.visibility = "hidden"
+	drawPrevPoints();
 	drawPrevPaths();
 }
 
@@ -378,6 +407,32 @@ function drawPrevPaths(){
 		
 	}
 		
+}
+
+function drawPrevPoints(){
+	var points;
+	if (bird == "crow"){
+		var pointobj = JSON.parse(localStorage.getItem("crowPoints"));
+	}else if (bird =="dove"){
+		var pointobj = JSON.parse(localStorage.getItem("dovePoints"));
+	}
+	points = pointobj.coords;
+	var idx=0;
+	while (idx < points.length){
+		var coord = points[idx];
+		var lat = coord[0];
+		var lon = coord[1];
+		var streetPos = new google.maps.LatLng(lat, lon);
+		idx++;
+	}
+	
+	destinationMarker = new google.maps.Marker({
+		position: streetPos,
+		map: gmap2,
+		icon: icon,
+		title: "marker " + markerNo
+    });
+	markerNo = markerNo ++;
 }
 
 function senseToWing(){
@@ -547,6 +602,7 @@ function leaveMark(streetPos){
 		icon: icon,
 		title: "marker " + markerNo
     });
+	currPoints.push([mapLat,mapLon]);
 	markerNo = markerNo ++;
 
 }

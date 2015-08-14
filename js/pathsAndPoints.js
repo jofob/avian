@@ -27,6 +27,15 @@ var crowPaths = {
 					[53.3592403,-6.2934482]]]
 				};
 
-var dovePoints = [];
-var crowPoints = [];
+var dovePoints = {
+				"coords" :
+					[[53.3395154,-6.2714767],
+					[53.3424153,-6.2679353]]
+				};
+		
+var crowPoints = {
+				"coords" :
+					[[53.3411349,-6.2784337],
+					[53.3438452,-6.269974]]
+				};
 
