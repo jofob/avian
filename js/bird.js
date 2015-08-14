@@ -26,6 +26,8 @@ var momentum = 0;
 var momentumLimit = 500;
 var flightHasBegun = false; //boolean indicating if the player has started flying yet
 var svoverlay; // street view overlay
+var flockContainer; // bird flock overlay
+var numberOfBirdsInFlock = 200;
 var notStreetView = true; 
 var panorama; //street view object
 var bird; //will store the variety of bird
@@ -57,6 +59,7 @@ var crl10;
 var selCrow;
 var selDove;
 var resetButton;
+var squawkButton;
 //---------------------------//
 
 
@@ -85,6 +88,8 @@ function initialize() {
 		
 	//assigning street view div;
 	svoverlay = document.getElementById("svoverlay");
+	//assigning bird flock div
+	flockContainer = document.getElementById("flockContainer");
 	birdDiv = document.getElementById("birdy");
 	//calling various other setup functions
 	centerMap();
@@ -262,6 +267,7 @@ function setButtons(){
 	selCrow = document.getElementById("crow");
 	selDove = document.getElementById("dove");
 	resetButton = document.getElementById("reset");
+	squawkButton = document.getElementById("squawk");
 	
 	crl01.onclick = rightUp;
 	crl10.onclick = leftUp;
@@ -270,6 +276,7 @@ function setButtons(){
 	selDove.onclick = selectDove;
 	selCrow.onclick = selectCrow;
 	resetButton.onclick = reset;
+	squawkButton.onclick = squawk;
 	
 }
 
@@ -277,6 +284,10 @@ function reset(){
 	storePath();
 	storePoints();
 	location.reload();
+}
+
+function squawk(){
+	if(!notStreetView) flockVisible(200);
 }
 
 function storePath(){
@@ -568,6 +579,9 @@ function checkFall(){
 function takeOff(){
 	svoverlay.style.opacity = "0";
 	setTimeout(function(){svoverlay.style.visibility="hidden";},500);
+	flockContainer.style.opacity = "0";
+	setTimeout(function(){flockContainer.style.visibility="hidden";},500);
+	stopFlockAnimation();
 	notStreetView = true;
 }
 
@@ -610,6 +624,13 @@ function leaveMark(streetPos){
 function streetViewVisible(){
 	svoverlay.style.visibility = "visible";
 	svoverlay.style.opacity = "100"
+}
+function flockVisible(n){
+	numberOfBirdsInFlock = n;
+	//updatePositionsToNumberOfBirdsInFlock();
+	flockContainer.style.visibility = "visible";
+	flockContainer.style.opacity = "100";
+	animateFlock();
 }
 
 function drawCurrPath(){

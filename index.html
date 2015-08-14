@@ -9,7 +9,8 @@
 	<script src="socket.io/socket.io.js"></script>
     <script type="text/javascript" src="js/bird.js"></script>
 	<script type="text/javascript" src="js/pathsAndPoints.js"></script>
-	<script src="js/processing.js"></script>
+	<script type="text/javascript" src="js/processing.js"></script>
+	<script type="text/javascript" src="js/three.min.js"></script>
 
 
   </head>
@@ -27,6 +28,7 @@
 			<button id="00"> &mdash; . &mdash;  </button>
 			<button id="10"> \ . &mdash;  </button>
 			<button id="reset"> reset </button>
+			<button id="squawk"> squawk </button>
 		</div>
 	</div>
 	
@@ -38,11 +40,16 @@
 		</div>
 	</div>
 	<div id= "svoverlay"></div>
+	<div id="flockContainer"></div>
 	
 	<div id= "startHere"> 
 		<button id="crow">CROW</button>
 		<button id="dove">DOVE</button>
 	</div>
 
+	
+	
+	
+	<script type="text/javascript" src="js/birdflock.js"></script>
   </body>
 </html>
