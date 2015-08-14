@@ -339,19 +339,19 @@ function hideStart(){
 function drawPrevPaths(){
 //This function draws the previous paths of birds
 	var paths;
-	var opac = 1;
 	if (bird == "crow"){
 		var pathobj = JSON.parse(localStorage.getItem("crowPaths"));
 	}else if (bird =="dove"){
 		var pathobj = JSON.parse(localStorage.getItem("dovePaths"));
 	}
 	paths = pathobj.coords;
-	var idx = 0;
+	var idx = (paths.length-1);
 	console.log(paths.length);
-	while (idx < paths.length) {
+	var opac = 1;
+	while (idx >= 0) {
 		var path = paths[idx];
 		var pathPoints = [];
-		idx2 = 0;
+		var idx2 = 0;
 		while (idx2 < path.length) {
 			var coords = path[idx2];
 			var cLon = coords[0];
@@ -360,14 +360,20 @@ function drawPrevPaths(){
 			pathPoints.push(point);
 			idx2++;
 		}
-		idx++;
+		idx = idx-1;
+		if (bird == "dove"){
+			var pathColor="#000000";
+		}else{
+			var pathColor="#FFFFFF";
+		}
 		var birdPath = new google.maps.Polyline({
 			path: pathPoints,
 			geodesic: true,
-			strokeColor: '#FFFFFF',
+			strokeColor: pathColor,
 			strokeOpacity: opac,
 			strokeWeight: 2 
 		});
+		opac = (opac - .1);
 		birdPath.setMap(gmap2);
 		
 	}
@@ -568,9 +574,9 @@ function drawCurrPath(){
 		curBirdPath = new google.maps.Polyline({
 			path: pathPoints,
 			geodesic: true,
-			strokeColor: '#FF0000',
-			strokeOpacity: 1,
-			strokeWeight: 2 
+			strokeColor: '#ffffff',
+			strokeOpacity: 0,
+			strokeWeight: 0 
 		});
 		curBirdPath.setMap(gmap);
 }
