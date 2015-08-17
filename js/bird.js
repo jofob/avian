@@ -303,6 +303,11 @@ function storePath(){
 		prevPaths = JSON.parse(localStorage.getItem("dovePaths"));
 	}
 	prevPaths = prevPaths.coords;
+	
+	while (prevPaths.length > 10){
+		prevPaths.shift();
+	}
+	
 	prevPaths.push(currPath);
 	
 	if (bird == "crow"){
