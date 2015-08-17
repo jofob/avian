@@ -515,11 +515,8 @@ function selectDove(){
 	svoverlay.setAttribute("class","mapDivDove");
 	insertBird();
 	setTimeout(hideStart, 1000);
-<<<<<<< HEAD
-	start();
-=======
 	playMusic(doveSongs);
->>>>>>> 5f62ae1ee4c217fb8144d7d9dd2562b11ad6b929
+	start();
 }
 
 function selectCrow(){
@@ -530,11 +527,10 @@ function selectCrow(){
 	svoverlay.setAttribute("class","mapDivCrow");
 	insertBird();
 	setTimeout(hideStart, 1000);
-<<<<<<< HEAD
+	playMusic(crowSongs);
 	start();
 }
-=======
-	playMusic(crowSongs);
+
 
 function playMusic(x){
 	for(i = 0; i < x.length; i++){
@@ -542,7 +538,7 @@ function playMusic(x){
 		audio.play();
 	};
 };
->>>>>>> 5f62ae1ee4c217fb8144d7d9dd2562b11ad6b929
+
 
 //---------------------------//
 
