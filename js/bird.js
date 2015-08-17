@@ -98,6 +98,11 @@ function initialize() {
 	//Start bird path at origin position
 	currPath.push([mapLon,mapLat]);
 	startOverlay = document.getElementById("startHere");
+	
+}
+
+function start(){
+	// triggers the action loop to begin
 	setInterval(actionLoop, 20);
 }
 
@@ -303,7 +308,7 @@ function storePath(){
 	if (bird == "crow"){
 		var prevPathsObj = {
 			"coords" : prevPaths
-		};
+			};
 		localStorage.setItem("crowPaths", JSON.stringify(prevPathsObj));
 	} else if (bird == "dove"){
 		var prevPathsObj = {
@@ -315,28 +320,28 @@ function storePath(){
 
 function storePoints(){
 	var prevPoints;
-	if (bird == "crow"){
-		prevPoints = JSON.parse(localStorage.getItem("crowPoints"));
-	} else if ( bird == "dove"){
-		prevPoints = JSON.parse(localStorage.getItem("dovePoints"));
+	if (bird =="crow"){
+		prevPoints = localStorage.crowPoints;
+	} else if(bird == "dove"){
+		prevPoints = localStorage.dovePoints;
 	}
+	prevPoints = JSON.parse(prevPoints);
 	prevPoints = prevPoints.coords;
-	var idx = 0;
-	while (idx < prevPoints.length ){
-		prevPoints.push(currPoints[idx]);
+	idx = 0;
+	while (idx < currPoints.length) {
+		prevPoints.push(currPoints[idx])
 		idx++;
 	}
-	if (bird == "crow"){
-		var prevPointsObj = {
-			"coords" : prevPoints
+	var pointObj = {
+		"coords": prevPoints
 		};
-		localStorage.setItem("crowPoints", JSON.stringify(prevPointsObj));
+		
+	if (bird == "crow"){
+		localStorage.setItem("crowPoints", JSON.stringify (pointObj));
 	} else if (bird == "dove"){
-		var prevPointsObj = {
-			"coords" : prevPoints
-			};
-		localStorage.setItem("dovePoints", JSON.stringify(prevPointsObj));
+		localStorage.setItem("dovePoints", JSON.stringify (pointObj));
 	}
+
 }
 
 function centerMap(){
@@ -428,22 +433,25 @@ function drawPrevPoints(){
 		var pointobj = JSON.parse(localStorage.getItem("dovePoints"));
 	}
 	points = pointobj.coords;
+	console.log(points);
 	var idx=0;
 	while (idx < points.length){
 		var coord = points[idx];
 		var lat = coord[0];
 		var lon = coord[1];
 		var streetPos = new google.maps.LatLng(lat, lon);
-		idx++;
-	}
-	
-	destinationMarker = new google.maps.Marker({
+		
+		destinationMarker = new google.maps.Marker({
 		position: streetPos,
 		map: gmap2,
 		icon: icon,
 		title: "marker " + markerNo
-    });
-	markerNo = markerNo ++;
+		});
+		markerNo = markerNo ++;
+		idx++;
+	}
+	
+	
 }
 
 function senseToWing(){
@@ -506,6 +514,7 @@ function selectDove(){
 	svoverlay.setAttribute("class","mapDivDove");
 	insertBird();
 	setTimeout(hideStart, 1000);
+	start();
 }
 
 function selectCrow(){
@@ -516,6 +525,7 @@ function selectCrow(){
 	svoverlay.setAttribute("class","mapDivCrow");
 	insertBird();
 	setTimeout(hideStart, 1000);
+	start();
 }
 
 //---------------------------//
@@ -625,6 +635,7 @@ function streetViewVisible(){
 	svoverlay.style.visibility = "visible";
 	svoverlay.style.opacity = "100"
 }
+
 function flockVisible(n){
 	numberOfBirdsInFlock = n;
 	//updatePositionsToNumberOfBirdsInFlock();
