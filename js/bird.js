@@ -1,5 +1,3 @@
-//George test comment for git hub
-
 google.maps.event.addDomListener(window, 'load', initialize);
 
 //GLOBAL VARIABLES
@@ -20,8 +18,8 @@ var mapLat = 53.3390956 //latitude;
 var destinationMarker; //Variable for map marker
 var markerNo = 1; //Markers numbered
 var icon; //creates variable for the marker image, filled in selectCrow/Dove functions
-var markerCrow = 'img/crowFrames/down.png'; //Images for respective markers
-var markerDove = 'img/doveFrames/down.png';
+var markerCrow = 'img/crowFrames/crowFeather.png'; //Images for respective markers
+var markerDove = 'img/doveFrames/doveFeather.png';
 var momentum = 0;
 var momentumLimit = 500;
 var flightHasBegun = false; //boolean indicating if the player has started flying yet
@@ -43,6 +41,8 @@ var rVal = 0; //right value from arduino
 var lDeg = 0;
 var rDeg = 0;
 var wingUp = 800;
+var crowSongs = ['../music/crow_sample_1.mp3', '../music/dove_sample1.mp3']; //Song arrays in progress
+var doveSongs = ['../music/dove_sample1.mp3', '../music/crow_sample_1.mp3']; //To be replaced with full length songs from Sophie
 
 
 //wing position variables 
@@ -506,6 +506,7 @@ function bothDown(){
 	birdImg.src="img/"+bird+"frames/down.png";
 }
 
+
 function selectDove(){
 	bird = "dove";
 	icon = markerDove;
@@ -514,7 +515,11 @@ function selectDove(){
 	svoverlay.setAttribute("class","mapDivDove");
 	insertBird();
 	setTimeout(hideStart, 1000);
+<<<<<<< HEAD
 	start();
+=======
+	playMusic(doveSongs);
+>>>>>>> 5f62ae1ee4c217fb8144d7d9dd2562b11ad6b929
 }
 
 function selectCrow(){
@@ -525,8 +530,19 @@ function selectCrow(){
 	svoverlay.setAttribute("class","mapDivCrow");
 	insertBird();
 	setTimeout(hideStart, 1000);
+<<<<<<< HEAD
 	start();
 }
+=======
+	playMusic(crowSongs);
+
+function playMusic(x){
+	for(i = 0; i < x.length; i++){
+		audio = new Audio(x[i]);
+		audio.play();
+	};
+};
+>>>>>>> 5f62ae1ee4c217fb8144d7d9dd2562b11ad6b929
 
 //---------------------------//
 
