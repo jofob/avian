@@ -43,6 +43,8 @@ var rVal = 0; //right value from arduino
 var lDeg = 0;
 var rDeg = 0;
 var wingUp = 800;
+var crowSongs = ['../music/crow_sample_1.mp3', 'music/dove_sample1.mp3']; //Song arrays in progress
+var doveSongs = ['../music/dove_sample1.mp3', 'music/crow_sample_1.mp3']; //To be replaced with full length songs from Sophie
 
 
 //wing position variables 
@@ -498,6 +500,7 @@ function bothDown(){
 	birdImg.src="img/"+bird+"frames/down.png";
 }
 
+
 function selectDove(){
 	bird = "dove";
 	icon = markerDove;
@@ -506,6 +509,7 @@ function selectDove(){
 	svoverlay.setAttribute("class","mapDivDove");
 	insertBird();
 	setTimeout(hideStart, 1000);
+	playMusic(doveSongs);
 }
 
 function selectCrow(){
@@ -516,6 +520,7 @@ function selectCrow(){
 	svoverlay.setAttribute("class","mapDivCrow");
 	insertBird();
 	setTimeout(hideStart, 1000);
+	playMusic(crowSongs);
 }
 
 //---------------------------//
