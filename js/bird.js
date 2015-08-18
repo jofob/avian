@@ -293,6 +293,8 @@ function reset(){
 
 function squawk(){
 	if(!notStreetView) flockVisible(200);
+	var streetPos = new google.maps.LatLng(mapLat, mapLon);
+	leaveMark(streetPos);
 }
 
 function storePath(){
@@ -618,7 +620,7 @@ function streetDrop(){
 //this function drops the user onto the nearest street view
 //for now the street view is displayed in a div overlaying the original map
 	var streetPos = new google.maps.LatLng(mapLat, mapLon);	
-	leaveMark(streetPos);
+	
 	var svOptions = { // Setting street view parameters
 		position: streetPos,
 		linksControl: false,
