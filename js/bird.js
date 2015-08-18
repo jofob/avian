@@ -521,6 +521,7 @@ function selectDove(){
 	insertBird();
 	setTimeout(hideStart, 1000);
 	playMusic(doveSongs);
+	document.getElementById("wingsLeft").style.backgroundColor = "#373737";
 	start();
 }
 
@@ -533,6 +534,7 @@ function selectCrow(){
 	insertBird();
 	setTimeout(hideStart, 1000);
 	playMusic(crowSongs);
+	document.getElementById("wingsLeft").style.backgroundColor = "#d2d2d7";
 	start();
 }
 
