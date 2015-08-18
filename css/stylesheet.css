@@ -70,11 +70,11 @@ body{
 }
 
 .mapDivCrow{
-	-webkit-filter: contrast(2) hue-rotate(300deg);
+	-webkit-filter: contrast(1.8) hue-rotate(300deg) saturate(.5);
 	}
 	
 .mapDivDove{
-	-webkit-filter: hue-rotate(0deg) brightness(2.2) opacity(0.6);
+	-webkit-filter: hue-rotate(0deg) brightness(2.5) saturate(.5);
 	}
 
 #birdControl{

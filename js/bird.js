@@ -13,8 +13,8 @@ var windowW=0; //width of window
 var windowH=0; //height of window
 var degUnit = 1; //unit of change for rotation on satellite map, in degrees.
 var headUnit = 90; //unit of change for aerial view rotation, in degrees. 
-var mapLon = -6.2774888 //longitude;
-var mapLat = 53.3390956 //latitude;
+var mapLon = -6.258239//longitude;
+var mapLat = 53.343278//latitude;
 var destinationMarker; //Variable for map marker
 var markerNo = 1; //Markers numbered
 var icon; //creates variable for the marker image, filled in selectCrow/Dove functions
