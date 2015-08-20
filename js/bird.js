@@ -439,7 +439,7 @@ function drawPrevPaths(){
 			idx2++;
 		}
 		idx = idx-1;
-		if (bird == "dove"){
+		if (bird == "dove" || bird =="pheon"){
 			var pathColor="#000000";
 		}else{
 			var pathColor="#FFFFFF";
@@ -449,7 +449,7 @@ function drawPrevPaths(){
 			geodesic: true,
 			strokeColor: pathColor,
 			strokeOpacity: opac,
-			strokeWeight: 2 
+			strokeWeight: 5 
 		});
 		opac = (opac - .1);
 		birdPath.setMap(gmap2);
