@@ -293,9 +293,11 @@ function reset(){
 }
 
 function squawk(){
-	if(!notStreetView) flockVisible(200);
-	var streetPos = new google.maps.LatLng(mapLat, mapLon);
-	leaveMark(streetPos);
+	if(!notStreetView){
+		flockVisible(200);
+		var streetPos = new google.maps.LatLng(mapLat, mapLon);
+		leaveMark(streetPos);
+	}
 }
 
 function storePath(){
