@@ -285,7 +285,7 @@ function init() {
 		boid.setAvoidWalls( true );
 		boid.setWorldSize( 500, 500, 400 );
 
-		halpBird = birds[ i ] = new THREE.Mesh( new Bird(), new THREE.MeshBasicMaterial( { color: 0xff4772, side: THREE.DoubleSide } ) );
+		halpBird = birds[ i ] = new THREE.Mesh( new Bird(), new THREE.MeshBasicMaterial( { color: 0x000000, side: THREE.DoubleSide } ) );
 		halpBird.phase = Math.floor( Math.random() * 62.83 );
 		scene.add( halpBird );
 	}
@@ -332,7 +332,7 @@ function renderFlock() {
 		halpBird.position.copy( boids[ i ].position );
 
 		color = halpBird.material.color;
-		color.r = color.g = color.b = ( 500 - halpBird.position.z ) / 1000;
+		/* color.r = color.g = color.b = ( 500 - halpBird.position.z ) / 1000; */
 
 		halpBird.rotation.y = Math.atan2( - boid.velocity.z, boid.velocity.x );
 		halpBird.rotation.z = Math.asin( boid.velocity.y / boid.velocity.length() );

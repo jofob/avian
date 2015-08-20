@@ -20,6 +20,7 @@ var markerNo = 1; //Markers numbered
 var icon; //creates variable for the marker image, filled in selectCrow/Dove functions
 var markerCrow = 'img/crowFrames/crowFeather.png'; //Images for respective markers
 var markerDove = 'img/doveFrames/doveFeather.png';
+var markerPheon = 'img/pheonFrames/pheonMark.png';
 var momentum = 0;
 var momentumLimit = 500;
 var flightHasBegun = false; //boolean indicating if the player has started flying yet
@@ -303,7 +304,10 @@ function storePath(){
 		prevPaths = JSON.parse(localStorage.getItem("crowPaths"));
 	} else if ( bird == "dove"){
 		prevPaths = JSON.parse(localStorage.getItem("dovePaths"));
+	} else if ( bird == "pheon"){
+		prevPaths = JSON.parse(localStorage.getItem("pheonPaths"));
 	}
+	
 	prevPaths = prevPaths.coords;
 	
 	while (prevPaths.length > 10){
@@ -322,6 +326,11 @@ function storePath(){
 			"coords" : prevPaths
 			};
 		localStorage.setItem("dovePaths", JSON.stringify(prevPathsObj));
+	} else if (bird == "pheon"){
+		var prevPathsObj = {
+			"coords" : prevPaths
+			};
+		localStorage.setItem("pheonPaths", JSON.stringify(prevPathsObj));
 	}
 }
 
@@ -331,6 +340,8 @@ function storePoints(){
 		prevPoints = localStorage.crowPoints;
 	} else if(bird == "dove"){
 		prevPoints = localStorage.dovePoints;
+	} else if(bird == "pheon"){
+		prevPoints = localStorage.pheonPoints;
 	}
 	prevPoints = JSON.parse(prevPoints);
 	prevPoints = prevPoints.coords;
@@ -347,6 +358,8 @@ function storePoints(){
 		localStorage.setItem("crowPoints", JSON.stringify (pointObj));
 	} else if (bird == "dove"){
 		localStorage.setItem("dovePoints", JSON.stringify (pointObj));
+	} else if (bird == "phoen"){
+		localStorage.setItem("pheonPoints", JSON.stringify (pointObj));
 	}
 
 }
@@ -369,8 +382,10 @@ function initLocStor(){
 	if ( avianStatus == null ) {
 		localStorage.setItem("dovePaths", JSON.stringify(dovePaths));
 		localStorage.setItem("crowPaths", JSON.stringify(crowPaths));
+		localStorage.setItem("pheonPaths", JSON.stringify(pheonPaths));
 		localStorage.setItem("dovePoints", JSON.stringify(dovePoints));
 		localStorage.setItem("crowPoints", JSON.stringify(crowPoints));
+		localStorage.setItem("pheonPoints", JSON.stringify(pheonPoints));
 		localStorage.setItem("avianStatus", "initSet");
 	}
 	
@@ -395,6 +410,8 @@ function drawPrevPaths(){
 		var pathobj = JSON.parse(localStorage.getItem("crowPaths"));
 	}else if (bird =="dove"){
 		var pathobj = JSON.parse(localStorage.getItem("dovePaths"));
+	}else if (bird =="pheon"){
+		var pathobj = JSON.parse(localStorage.getItem("pheonPaths"));
 	}
 	paths = pathobj.coords;
 	var idx = (paths.length-1);
@@ -438,6 +455,8 @@ function drawPrevPoints(){
 		var pointobj = JSON.parse(localStorage.getItem("crowPoints"));
 	}else if (bird =="dove"){
 		var pointobj = JSON.parse(localStorage.getItem("dovePoints"));
+	}else if (bird =="pheon"){
+		var pointobj = JSON.parse(localStorage.getItem("pheonPoints"));
 	}
 	points = pointobj.coords;
 	console.log(points);
@@ -540,6 +559,18 @@ function selectCrow(){
 	start();
 }
 
+function selectPheon(){
+	bird = "pheon";
+	icon = markerPheon;
+	startOverlay.style.opacity="0";
+	mapDiv2.setAttribute("class","mapDivCrow");
+	svoverlay.setAttribute("class","mapDivCrow");
+	insertBird();
+	setTimeout(hideStart, 1000);
+	playMusic(crowSongs);
+	document.getElementById("wingsLeft").style.backgroundColor = "#d2d2d7";
+	start();
+}
 
 function playMusic(x){
 	for(i = 0; i < x.length; i++){
@@ -633,13 +664,13 @@ function streetDrop(){
 			}
 		};
 	panorama = new google.maps.StreetViewPanorama(svoverlay, svOptions);
-	if (typeof panorama.projection === 'undefined'){
 		console.log("no street info");
-	} else {
+ 	if (typeof panorama.projection === 'undefined'){ 	
 		gmap.setStreetView(panorama);
 		setTimeout(streetViewVisible, 500); //delays making street view visible
 		notStreetView = false;
 	}
+
 }
 
 function leaveMark(streetPos){
