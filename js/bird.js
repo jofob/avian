@@ -633,10 +633,13 @@ function streetDrop(){
 			}
 		};
 	panorama = new google.maps.StreetViewPanorama(svoverlay, svOptions);
-	gmap.setStreetView(panorama);
-	setTimeout(streetViewVisible, 500); //delays making street view visible
-	notStreetView = false;
-
+	if (typeof panorama.projection === 'undefined'){
+		console.log("no street info");
+	} else {
+		gmap.setStreetView(panorama);
+		setTimeout(streetViewVisible, 500); //delays making street view visible
+		notStreetView = false;
+	}
 }
 
 function leaveMark(streetPos){
