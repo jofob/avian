@@ -77,6 +77,10 @@ body{
 	-webkit-filter: hue-rotate(0deg) brightness(2.5) saturate(.5);
 	}
 
+.mapDivPheon{
+	-webkit-filter: hue-rotate(0deg) brightness(2) saturate(5);
+	}
+
 #birdControl{
 	bottom: 0px;
 	width: 100%;

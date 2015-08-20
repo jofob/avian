@@ -41,6 +41,7 @@ var lVal = 0; //left value from arduino
 var rVal = 0; //right value from arduino
 var lDeg = 0;
 var rDeg = 0;
+var hue = 0; //hue change for pheonix;
 var wingUp = 800;
 var crowSongs = ['../music/crow_sample_1.mp3', '../music/dove_sample1.mp3']; //Song arrays in progress
 var doveSongs = ['../music/dove_sample1.mp3', '../music/crow_sample_1.mp3']; //To be replaced with full length songs from Sophie
@@ -114,6 +115,12 @@ function actionLoop(){
 	moveForward();
 	pointToPath();
 	drawCurrPath();
+	if (bird == "pheon"){
+		var filter ="hue-rotate("+hue+"deg) brightness(2) saturate(5)";
+		mapDiv2.style.webkitFilter = filter;
+		svoverlay.style.webkitFilter = filter;
+		hue = hue+1;
+	}
 	loopCount++;
 }
 
@@ -565,12 +572,12 @@ function selectPheon(){
 	bird = "pheon";
 	icon = markerPheon;
 	startOverlay.style.opacity="0";
-	mapDiv2.setAttribute("class","mapDivCrow");
-	svoverlay.setAttribute("class","mapDivCrow");
+	mapDiv2.setAttribute("class","mapDivPheon");
+	svoverlay.setAttribute("class","mapDivPheon");
 	insertBird();
 	setTimeout(hideStart, 1000);
 	playMusic(crowSongs);
-	document.getElementById("wingsLeft").style.backgroundColor = "#d2d2d7";
+	document.getElementById("wingsLeft").style.backgroundColor = "#090a39";
 	start();
 }
 

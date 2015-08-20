@@ -17,7 +17,7 @@
 
 //author: Alessa Gross
 
-//String bird = "pheonix";
+//String bird = "pheon";
 
 int ORIGINAL_WIDTH = 1635;
 
@@ -72,17 +72,17 @@ PImage dove_feather2inner = loadImage("img/feathers/dove_feather2_V1-3.png");
 PImage dove_feather3inner = loadImage("img/feathers/dove_feather3_V1-3.png");
 
 
-PImage pheonix_feather1outer = loadImage("img/feathers/golden_feather1_V1-1.png");
-PImage pheonix_feather2outer = loadImage("img/feathers/golden_feather2_V1-1.png");
-PImage pheonix_feather3outer = loadImage("img/feathers/golden_feather3_V1-1.png");
+PImage pheon_feather1outer = loadImage("img/feathers/golden_feather1_V1-1.png");
+PImage pheon_feather2outer = loadImage("img/feathers/golden_feather2_V1-1.png");
+PImage pheon_feather3outer = loadImage("img/feathers/golden_feather3_V1-1.png");
 
-PImage pheonix_feather1middle = loadImage("img/feathers/golden_feather4_V1-0.png");
-PImage pheonix_feather2middle = loadImage("img/feathers/golden_feather5_V1-0.png");
-PImage pheonix_feather3middle = loadImage("img/feathers/golden_feather6_V1-0.png");
+PImage pheon_feather1middle = loadImage("img/feathers/golden_feather4_V1-0.png");
+PImage pheon_feather2middle = loadImage("img/feathers/golden_feather5_V1-0.png");
+PImage pheon_feather3middle = loadImage("img/feathers/golden_feather6_V1-0.png");
 
-PImage pheonix_feather1inner = loadImage("img/feathers/golden_feather4_V1-0.png");
-PImage pheonix_feather2inner = loadImage("img/feathers/golden_feather5_V1-0.png");
-PImage pheonix_feather3inner = loadImage("img/feathers/golden_feather6_V1-0.png");
+PImage pheon_feather1inner = loadImage("img/feathers/golden_feather4_V1-0.png");
+PImage pheon_feather2inner = loadImage("img/feathers/golden_feather5_V1-0.png");
+PImage pheon_feather3inner = loadImage("img/feathers/golden_feather6_V1-0.png");
 
 
 int[] randomFeathers;
@@ -102,7 +102,7 @@ void setup(){
 
   crow_randomFeathers = {2,3,2,1,3,2,1,2,3,1,3,2,1,3,2,1,1,2,1,2,3,1,3,2,3,2,1,3,2,1,1,2,2,3,2,1,3,2,1,2,3,1,3,2,1,3,2,1,1,2,1,2,3,1,3,2,3,2,1,3,2,1,1,2,3,2,1,3,2,1,1,2,2,3,2,1,3,2,1,2,3,1,3,2,1,3,2,1,1,2,1,2,3,1,3,2,3,2,1,3,2,1,1,2};
   dove_randomFeathers = {2,3,2,1,3,2,1,2,3,1,3,2,1,3,2,1,1,2,1,2,3,1,3,2,3,2,1,3,2,1,1,2,2,3,2,1,3,2,1,2,3,1,3,2,1,3,2,1,1,2,1,2,3,1,3,2,3,2,3,1,2,1,1,2,3,2,1,3,2,1,1,2,2,3,2,1,3,2,1,2,3,1,3,2,1,3,2,1,1,2,1,2,3,1,3,2,3,2,1,3,2,1,1,2};
-  pheonix_randomFeathers = {2,3,2,1,3,2,1,2,3,1,3,2,1,3,2,1,1,2,1,2,3,1,3,2,3,2,1,3,2,1,1,2,2,3,2,1,3,2,1,2,3,1,3,2,1,3,2,1,1,2,1,2,3,1,3,2,3,2,3,1,2,1,1,2,3,2,1,3,2,1,1,2,2,3,2,1,3,2,1,2,3,1,3,2,1,3,2,1,1,2,1,2,3,1,3,2,3,2,1,3,2,1,1,2};
+  pheon_randomFeathers = {2,3,2,1,3,2,1,2,3,1,3,2,1,3,2,1,1,2,1,2,3,1,3,2,3,2,1,3,2,1,1,2,2,3,2,1,3,2,1,2,3,1,3,2,1,3,2,1,1,2,1,2,3,1,3,2,3,2,3,1,2,1,1,2,3,2,1,3,2,1,1,2,2,3,2,1,3,2,1,2,3,1,3,2,1,3,2,1,1,2,1,2,3,1,3,2,3,2,1,3,2,1,1,2};
   
 }
 
@@ -110,7 +110,7 @@ void setup(){
 void draw(){
     scale((windowW/3)/ORIGINAL_WIDTH,(windowW/3)/ORIGINAL_WIDTH);
     if(bird == "dove") background(55,55,55);
-    else if(bird == "pheonix") background(210,210,215);
+    else if(bird == "pheon") background(9,10,57);
     else  background(210,210,215);
     
     float leftDegree  = radians(lDeg);
@@ -139,7 +139,7 @@ void drawWing(degree){
    float fHeight = outerFeatherH;
     
    if(bird == "dove") image(dove_feather2outer, 0, 0, fWidth, fHeight);
-   else if(bird == "pheonix") image(pheonix_feather2outer, 0, 0, fWidth, fHeight);
+   else if(bird == "pheon") image(pheon_feather2outer, 0, 0, fWidth, fHeight);
    else image(crow_feather2outer, 0, 0, fWidth, fHeight);
    
    for (int i = 0; i < outerFeatherN; i += 1) {
@@ -150,23 +150,23 @@ void drawWing(degree){
       
       int featherNumber;
       if(bird == "dove") featherNumber = dove_randomFeathers[i];
-      else if(bird == "pheonix") featherNumber = pheonix_randomFeathers[i];
+      else if(bird == "pheon") featherNumber = pheon_randomFeathers[i];
       else  featherNumber = crow_randomFeathers[i];
       
 	  switch(featherNumber){
          case 1:
             if(bird == "dove") image(dove_feather1outer, 0, 0, fWidth, fHeight);
-            else if(bird == "pheonix") image(pheonix_feather1outer, 0, 0, fWidth, fHeight);
+            else if(bird == "pheon") image(pheon_feather1outer, 0, 0, fWidth, fHeight);
             else image(crow_feather1outer, 0, 0, fWidth, fHeight);
             break;
          case 2: 
             if(bird == "dove") image(dove_feather2outer, 0, 0, fWidth, fHeight);
-            else if(bird == "pheonix") image(pheonix_feather2outer, 0, 0, fWidth, fHeight);
+            else if(bird == "pheon") image(pheon_feather2outer, 0, 0, fWidth, fHeight);
             else image(crow_feather2outer, 0, 0, fWidth, fHeight);
             break;
          case 3: 
             if(bird == "dove") image(dove_feather3outer, 0, 0, fWidth, fHeight);
-            else if(bird == "pheonix") image(pheonix_feather3outer, 0, 0, fWidth, fHeight);
+            else if(bird == "pheon") image(pheon_feather3outer, 0, 0, fWidth, fHeight);
             else image(crow_feather3outer, 0, 0, fWidth, fHeight);
             break;
       }
@@ -190,7 +190,7 @@ void drawWing(degree){
    fHeight = middleFeatherH;
     
    if(bird == "dove") image(dove_feather2middle, 0, 0, fWidth, fHeight);
-   else if(bird == "pheonix") image(pheonix_feather2middle, 0, 0, fWidth, fHeight); 
+   else if(bird == "pheon") image(pheon_feather2middle, 0, 0, fWidth, fHeight); 
    else image(crow_feather2middle, 0, 0, fWidth, fHeight);
   
    for (int i = 0; i < middleFeatherN; i += 1) {
@@ -201,23 +201,23 @@ void drawWing(degree){
       
       int featherNumber;
       if(bird == "dove") featherNumber = dove_randomFeathers[i + outerFeatherN];
-      else if(bird == "pheonix") featherNumber = pheonix_randomFeathers[i + outerFeatherN];
+      else if(bird == "pheon") featherNumber = pheon_randomFeathers[i + outerFeatherN];
       else  featherNumber = crow_randomFeathers[i + outerFeatherN];
       
       switch(featherNumber){
          case 1:
             if(bird == "dove") image(dove_feather1middle, 0, 0, fWidth, fHeight);
-            else if(bird == "pheonix") image(pheonix_feather1middle, 0, 0, fWidth, fHeight);
+            else if(bird == "pheon") image(pheon_feather1middle, 0, 0, fWidth, fHeight);
             else image(crow_feather1middle, 0, 0, fWidth, fHeight);
             break;
          case 2: 
             if(bird == "dove") image(dove_feather2middle, 0, 0, fWidth, fHeight);
-            else if(bird == "pheonix") image(pheonix_feather2middle, 0, 0, fWidth, fHeight);
+            else if(bird == "pheon") image(pheon_feather2middle, 0, 0, fWidth, fHeight);
             else image(crow_feather2middle, 0, 0, fWidth, fHeight);
             break;
          case 3: 
             if(bird == "dove") image(dove_feather3middle, 0, 0, fWidth, fHeight);
-            else if(bird == "pheonix") image(pheonix_feather2middle, 0, 0, fWidth, fHeight);
+            else if(bird == "pheon") image(pheon_feather2middle, 0, 0, fWidth, fHeight);
             else image(crow_feather3middle, 0, 0, fWidth, fHeight);
             break;
       }
@@ -240,7 +240,7 @@ void drawWing(degree){
    fHeight = innerFeatherH;
     
    if(bird == "dove") image(dove_feather3inner, 0, 0, fWidth, fHeight);
-   else if(bird == "pheonix") image(pheonix_feather3inner, 0, 0, fWidth, fHeight);
+   else if(bird == "pheon") image(pheon_feather3inner, 0, 0, fWidth, fHeight);
    else image(crow_feather3inner, 0, 0, fWidth, fHeight);
    
    for (int i = 0; i < innerFeatherN; i += 1) {
@@ -251,23 +251,23 @@ void drawWing(degree){
       
       int featherNumber;
       if(bird == "dove") featherNumber = dove_randomFeathers[i + outerFeatherN + middleFeatherN];
-      else if(bird == "pheonix") featherNumber = pheonix_randomFeathers[i + outerFeatherN + middleFeatherN];
+      else if(bird == "pheon") featherNumber = pheon_randomFeathers[i + outerFeatherN + middleFeatherN];
       else  featherNumber = crow_randomFeathers[i + outerFeatherN + middleFeatherN];
       
       switch(featherNumber){
          case 1:
             if(bird == "dove") image(dove_feather1inner, 0, 0, fWidth, fHeight);
-            else if(bird == "pheonix") image(pheonix_feather1inner, 0, 0, fWidth, fHeight);
+            else if(bird == "pheon") image(pheon_feather1inner, 0, 0, fWidth, fHeight);
             else image(crow_feather1inner, 0, 0, fWidth, fHeight);
             break;
          case 2: 
             if(bird == "dove") image(dove_feather2inner, 0, 0, fWidth, fHeight);
-            else if(bird == "pheonix") image(pheonix_feather2inner, 0, 0, fWidth, fHeight);
+            else if(bird == "pheon") image(pheon_feather2inner, 0, 0, fWidth, fHeight);
             else image(crow_feather2inner, 0, 0, fWidth, fHeight);
             break;
          case 3: 
             if(bird == "dove") image(dove_feather3inner, 0, 0, fWidth, fHeight);
-            else if(bird == "pheonix") image(pheonix_feather3inner, 0, 0, fWidth, fHeight);
+            else if(bird == "pheon") image(pheon_feather3inner, 0, 0, fWidth, fHeight);
             else image(crow_feather3inner, 0, 0, fWidth, fHeight);
             break;
       }
