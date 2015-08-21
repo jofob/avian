@@ -62,6 +62,7 @@ var selCrow;
 var selDove;
 var resetButton;
 var squawkButton;
+
 //---------------------------//
 
 
@@ -590,7 +591,6 @@ function playMusic(x){
 
 
 //---------------------------//
-
 
 
 function checkFlap(){

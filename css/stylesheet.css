@@ -81,6 +81,7 @@ body{
 	-webkit-filter: hue-rotate(0deg) brightness(2) saturate(5);
 	}
 
+
 #birdControl{
 	bottom: 0px;
 	width: 100%;
@@ -132,9 +133,17 @@ button{
 	top: 0;
 	z-index: 200;
 	opacity: 100;
-	background-color: #777777;
+	background-color: #333333;
 	text-align: center;
 	transition: opacity .5s ease-in-out;
+}
+
+#logo {
+	background: url("../img/misc/logo.png") no-repeat center center;
+	background-size: contain;
+	width: 30%;
+	height: 80%;
+	margin: 0 auto;
 }
 
 #birdy {
