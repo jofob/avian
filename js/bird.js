@@ -28,7 +28,6 @@ var svoverlay; // street view overlay
 var flockContainer; // bird flock overlay
 var numberOfBirdsInFlock = 200;
 var notStreetView = true; 
-var panorama; //street view object
 var bird; //will store the variety of bird
 var birdImg;//animated flying bird
 var birdDiv; //holds bird image
@@ -46,6 +45,12 @@ var wingUp = 800;
 var crowSongs = ['../music/crow_sample_1.mp3', '../music/dove_sample1.mp3']; //Song arrays in progress
 var doveSongs = ['../music/dove_sample1.mp3', '../music/crow_sample_1.mp3']; //To be replaced with full length songs from Sophie
 
+//squawk variables
+var loudness; //stores last received 
+var squawkInter; //interval ID for squawk listener
+var doveFloor = 55; // Squawk thresholds
+var crowFloor = 80;
+var pheonFloor = 200;
 
 //wing position variables 
 var lwingUp = false; //current position of left wing
@@ -102,12 +107,44 @@ function initialize() {
 	currPath.push([mapLon,mapLat]);
 	startOverlay = document.getElementById("startHere");
 	
+	//Start listening for squawk
+	squawkInter = setInterval(checkInitSquawk, 20);
+}
+
+function checkInitSquawk(){
+//checks Loudness value to determine which bird to select
+	if (loudness > pheonFloor){
+		console.log("pheonix");
+		selectPheon();
+		clearInterval(squawkInter);
+	} else if (loudness > crowFloor){
+		console.log("crow");
+		selectCrow();
+		clearInterval(squawkInter);
+	} else if (loudness > doveFloor){
+		console.log("dove");
+		selectDove();
+		clearInterval(squawkInter);
+	}
 }
 
 function start(){
 	// triggers the action loop to begin
 	setInterval(actionLoop, 20);
 }
+
+// listen for arduino values
+var socket = io.connect();
+socket.on('message', function(data){
+	var msg = data.message;
+	if (msg.slice(0,1)== "R"){
+		rVal = parseInt(msg.slice(1,4));
+	} else if (msg.slice(0,1) == "L"){
+		lVal = parseInt(msg.slice(1,4));
+	} else if (msg.slice(0,1) == "S"){
+		loudness = msg.slice(1);
+	}
+});
 
 function actionLoop(){
 	ardValToDeg();
@@ -125,16 +162,6 @@ function actionLoop(){
 	loopCount++;
 }
 
-// listen for arduino values
-var socket = io.connect();
-socket.on('message', function(data){
-	var msg = data.message;
-	if (msg.slice(0,1)== "R"){
-		rVal = parseInt(msg.slice(1,4));
-	} else if (msg.slice(0,1) == "L"){
-		lVal = parseInt(msg.slice(1,4));
-	}
-});
 
 
 //CONVENIENCE FUNCTIONS
@@ -672,10 +699,11 @@ function streetDrop(){
 			pitch: 10, 
 			}
 		};
-	panorama = new google.maps.StreetViewPanorama(svoverlay, svOptions);
-		console.log("no street info");
- 	if (typeof panorama.projection === 'undefined'){ 	
-		gmap.setStreetView(panorama);
+	var panorama = new google.maps.StreetViewPanorama(svoverlay, svOptions);	
+	gmap.setStreetView(panorama);
+	if (panorama.projection === 'undefined'){ 
+		console.log("nostreetview");
+	} else {
 		setTimeout(streetViewVisible, 500); //delays making street view visible
 		notStreetView = false;
 	}

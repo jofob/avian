@@ -9,6 +9,7 @@ var right;
 var path;
 var rpiece;
 var lpiece;
+var soundData;
 
 /* REQUIRED NODE MODULES */
 var serialport = require("serialport");
@@ -49,6 +50,10 @@ var port = new SerialPort("COM8", {
   parser: serialport.parsers.readline("\n")
 	});
 	
+var soundPort =  new SerialPort("COM6", {
+  parser: serialport.parsers.readline("\n")
+	});
+	
 port.on('data', function(data){
 		var buff = new Buffer(data, 'utf8');
 		var piece = buff.toString();
@@ -68,6 +73,12 @@ port.on('data', function(data){
 		
 	});
 	
+soundPort.on('data', function(data){
+		var buff = new Buffer(data, 'utf8');
+		soundData = buff.toString();
+		console.log(soundData);
+	});
+	
 /* STARTING SERVER */
 server.listen(8001);
 
@@ -78,5 +89,6 @@ ios.sockets.on('connection', function(socket){
     setInterval(function(){
         socket.emit('message', {'message': left});
 		socket.emit('message', {'message': right});
+		socket.emit('message', {'message': soundData});
   }, 40);
 });
