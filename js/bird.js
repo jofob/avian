@@ -317,7 +317,7 @@ function setButtons(){
 	selDove.onclick = selectDove;
 	selCrow.onclick = selectCrow;
 	resetButton.onclick = reset;
-	squawkButton.onclick = squawk;
+	squawkButton.onclick = streetSquawk;
 	
 }
 
@@ -327,9 +327,9 @@ function reset(){
 	location.reload();
 }
 
-function squawk(){
+function streetSquawk(n){
 	if(!notStreetView){
-		flockVisible(200);
+		flockVisible(n);
 		var streetPos = new google.maps.LatLng(mapLat, mapLon);
 		leaveMark(streetPos);
 	}
@@ -681,6 +681,7 @@ function takeOff(){
 	setTimeout(function(){flockContainer.style.visibility="hidden";},500);
 	stopFlockAnimation();
 	notStreetView = true;
+	clearInterval(streetSquawkInter);
 }
 
 function streetDrop(){
@@ -705,9 +706,29 @@ function streetDrop(){
 		console.log("nostreetview");
 	} else {
 		setTimeout(streetViewVisible, 500); //delays making street view visible
+		streetSquawkInter = setInterval(checkStreetSquawk, 20);
 		notStreetView = false;
 	}
 
+}
+
+function checkStreetSquawk(){
+	var maxBirds = 400;
+	var minBirds = 20;
+	var threshold = 60;
+	var limit = 100;
+	var step = maxBirds/limit;
+	if (loudness > threshold){
+		var n = Math.round(step * (loudness-threshold));
+		if (n > maxBirds){
+			n = maxBirds;
+		}else if (n < minBirds){
+			n = minBirds;
+		}
+		console.log(n);
+		streetSquawk(n);
+		clearInterval(streetSquawkInter);
+	}
 }
 
 function leaveMark(streetPos){
