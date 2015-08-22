@@ -3,6 +3,7 @@
   <head>
 	  <meta charset="UTF-8">
 	  <link rel="stylesheet" type="text/css" href="css/stylesheet.css"/>
+	  <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
     <script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAK4bBBnoksrqP_cc7YCgy5hoBWmpRqq3A">
     </script>
@@ -22,14 +23,6 @@
 	
 	<div id = "mapCentre">
 		<div id="map-canvas2"></div>
-		<div id="birdControl">
-			<button id="01"> &mdash; . /  </button>
-			<button id="11">  \./  </button>
-			<button id="00"> &mdash; . &mdash;  </button>
-			<button id="10"> \ . &mdash;  </button>
-			<button id="reset"> reset </button>
-			<button id="squawk"> squawk </button>
-		</div>
 	</div>
 	
   	<div id = "mapRight">
@@ -43,9 +36,13 @@
 	<div id="flockContainer"></div>
 	
 	<div id= "startHere"> 
-		<div id = "logo"></div>
-		<button id="crow">CROW</button>
-		<button id="dove">DOVE</button>
+		<div class = "logo"></div>
+		<span id= "startmsg" class = "words">squawk.</span>
+	</div>
+	
+	<div id= "endScreen">
+		<div class="logo"></div>
+		<span id = "endmsg" class = "words">thank you.</span>
 	</div>
 
 	

@@ -31,11 +31,11 @@ var notStreetView = true;
 var bird; //will store the variety of bird
 var birdImg;//animated flying bird
 var birdDiv; //holds bird image
-var startOverlay; //div containing start selector buttons
+var startOverlay; //div containing start screen
+var endScreen;//div containing end screen
 var currPath = []; // stores the current path coordinates of the bird
 var currPoints=[];// stores current flights markers
 var curBirdPath = new google.maps.Polyline();
-var loopCount = 0;
 var lVal = 0; //left value from arduino
 var rVal = 0; //right value from arduino
 var lDeg = 0;
@@ -44,6 +44,9 @@ var hue = 0; //hue change for pheonix;
 var wingUp = 800;
 var crowSongs = ['../music/crow_sample_1.mp3', '../music/dove_sample1.mp3']; //Song arrays in progress
 var doveSongs = ['../music/dove_sample1.mp3', '../music/crow_sample_1.mp3']; //To be replaced with full length songs from Sophie
+var loopCount = 0;
+var timeLimit = 1000; // roughly 2000 per minute
+var actionLoopID//holds action loop interval ID
 
 //squawk variables
 var loudness; //stores last received 
@@ -57,16 +60,6 @@ var lwingUp = false; //current position of left wing
 var rwingUp = false; // current position of right wing
 var lwingPrev = false; // previous position of left wing
 var rwingPrev = false; // previous position of left wing
-
-//control buttons for testing
-var crl01;
-var crl11;
-var crl00;
-var crl10;
-var selCrow;
-var selDove;
-var resetButton;
-var squawkButton;
 
 //---------------------------//
 
@@ -101,13 +94,13 @@ function initialize() {
 	birdDiv = document.getElementById("birdy");
 	//calling various other setup functions
 	centerMap();
-	setButtons();
 	initLocStor();
 	//Start bird path at origin position
 	currPath.push([mapLon,mapLat]);
 	startOverlay = document.getElementById("startHere");
 	
 	//Start listening for squawk
+	document.getElementById("startmsg").style.opacity = "1";
 	squawkInter = setInterval(checkInitSquawk, 20);
 }
 
@@ -130,7 +123,7 @@ function checkInitSquawk(){
 
 function start(){
 	// triggers the action loop to begin
-	setInterval(actionLoop, 20);
+	actionLoopID = setInterval(actionLoop, 20);
 }
 
 // listen for arduino values
@@ -160,9 +153,23 @@ function actionLoop(){
 		hue = hue+1;
 	}
 	loopCount++;
+	checkFlightOver();
 }
 
-
+function checkFlightOver(){
+	if (loopCount > timeLimit){
+		clearInterval(actionLoopID);
+		endScreen = document.getElementById("endScreen");
+		endScreen.style.visibility = "visible";
+		endScreen.style.opacity = 100;
+		var endMsg = document.getElementById("endmsg");
+		setTimeout(function(){ 
+			endMsg.style.opacity = "1";}, 1500);
+		setTimeout(function(){ 
+			endMsg.style.opacity = "0";}, 8000);
+		setTimeout(reset,10000);
+	}
+}
 
 //CONVENIENCE FUNCTIONS
 //---------------------------//
@@ -297,29 +304,6 @@ function rotateMomentum(){
 
 //VARIOUS SETUP FUNCTIONS
 //---------------------------//
-function setButtons(){
-//assigns button dom elements to global variables
-//assigns onclick properties
-//this is just for testing and will not exist in final program
-	crl01 = document.getElementById("01");
-	crl11 = document.getElementById("11");
-	crl00 = document.getElementById("00");
-	crl10 = document.getElementById("10");
-	selCrow = document.getElementById("crow");
-	selDove = document.getElementById("dove");
-	resetButton = document.getElementById("reset");
-	squawkButton = document.getElementById("squawk");
-	
-	crl01.onclick = rightUp;
-	crl10.onclick = leftUp;
-	crl00.onclick = bothDown;
-	crl11.onclick = bothUp;
-	selDove.onclick = selectDove;
-	selCrow.onclick = selectCrow;
-	resetButton.onclick = reset;
-	squawkButton.onclick = streetSquawk;
-	
-}
 
 function reset(){
 	storePath();

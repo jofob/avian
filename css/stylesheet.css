@@ -2,6 +2,9 @@ html, body{
 	height: 100%;
 	margin: 0; 
 	padding: 0;
+	font-family: 'Oswald', sans-serif;
+	font-size: 1.8em;
+	color: #ffffff;
 }
 
 body{
@@ -19,6 +22,8 @@ body{
 	overflow: hidden;
 	float: left;
 	}
+
+	
 #wingsLeft canvas{
 	  -webkit-transform: translateY(40%);
 	  -moz-transform: translateY(40%);
@@ -138,12 +143,34 @@ button{
 	transition: opacity .5s ease-in-out;
 }
 
-#logo {
+.logo {
 	background: url("../img/misc/logo.png") no-repeat center center;
 	background-size: contain;
 	width: 30%;
 	height: 80%;
 	margin: 0 auto;
+}
+
+#endScreen{
+	z-index: 9999;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	visibility: hidden;
+	opacity: 0;
+	background-color: #333333;
+	text-align: center;
+	color: #ffffff;
+	transition: opacity 1.5s ease-in-out;
+}
+.words{
+	display: inline-block;
+	position: absolute;
+	bottom: 150px;
+	opacity: 0;
+	transition: opacity 1.5s ease-in-out;
+	left: 0;
+	right: 0;
 }
 
 #birdy {
