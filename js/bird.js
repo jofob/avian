@@ -45,14 +45,14 @@ var wingUp = 800;
 var crowSongs = ['../music/crow_sample_1.mp3', '../music/dove_sample1.mp3']; //Song arrays in progress
 var doveSongs = ['../music/dove_sample1.mp3', '../music/crow_sample_1.mp3']; //To be replaced with full length songs from Sophie
 var loopCount = 0;
-var timeLimit = 1000; // roughly 2000 per minute
+var timeLimit = 6000; // roughly 2000 per minute
 var actionLoopID//holds action loop interval ID
 
 //squawk variables
 var loudness; //stores last received 
 var squawkInter; //interval ID for squawk listener
-var doveFloor = 55; // Squawk thresholds
-var crowFloor = 80;
+var doveFloor = 54; // Squawk thresholds
+var crowFloor = 70;
 var pheonFloor = 200;
 
 //wing position variables 

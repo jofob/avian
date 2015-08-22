@@ -29,7 +29,7 @@ app.use(express.static(__dirname + '/public'));
  /* serves main page */
  
  app.get("/", function(req, res) {
-    res.sendFile('index.htm')
+    res.sendFile('index.html')
  });
  
   app.post("/user/add", function(req, res) { 
