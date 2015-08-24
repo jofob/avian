@@ -42,9 +42,8 @@ var lDeg = 0;
 var rDeg = 0;
 var hue = 0; //hue change for pheonix;
 var wingUp = 800;
-var crowSongs = ['../music/crow_sample_1.mp3', '../music/dove_sample1.mp3']; //Song arrays in progress
-var doveSongs = ['../music/dove_sample1.mp3', '../music/crow_sample_1.mp3']; //To be replaced with full length songs from Sophie
-var loopCount = 0;
+var crowSongs = ['../music/crow.mp3', '../music/crow.mp3']; 
+var doveSongs = ['../music/dove.mp3', '../music/cdove.mp3']; //Song arrays
 var timeLimit = 6000; // roughly 2000 per minute
 var actionLoopID//holds action loop interval ID
 
